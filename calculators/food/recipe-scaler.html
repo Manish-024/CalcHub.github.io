@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Scaler - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-utensils"></i>
+                <h1>Recipe Scaler</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Scale recipe ingredients up or down based on the number of servings you need. Perfect for adjusting recipes for different group sizes.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="recipeForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-users"></i> Servings</h3>
+                            
+                            <div class="form-group">
+                                <label for="originalServings">Original Servings <span class="required">*</span></label>
+                                <input type="number" id="originalServings" min="1" step="any" value="4" required placeholder="e.g., 4">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="desiredServings">Desired Servings <span class="required">*</span></label>
+                                <input type="number" id="desiredServings" min="1" step="any" value="8" required placeholder="e.g., 8">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-list"></i> Ingredients</h3>
+                            
+                            <div id="ingredients">
+                                <div class="ingredient-row" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                                    <input type="number" class="ingredient-amount" step="any" placeholder="Amount" style="flex: 1;">
+                                    <input type="text" class="ingredient-unit" placeholder="Unit" style="flex: 1;">
+                                    <input type="text" class="ingredient-name" placeholder="Ingredient" style="flex: 2;">
+                                </div>
+                            </div>
+                            
+                            <button type="button" onclick="addIngredient()" class="btn btn-secondary">
+                                <i class="fas fa-plus"></i> Add Ingredient
+                            </button>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Scale Recipe
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-balance-scale"></i> Scaled Recipe</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Scale Factor</div>
+                        <div class="result-value" id="scaleFactor">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Scaled Ingredients</h4>
+                        <div id="scaledIngredients"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        function addIngredient() {
+            const container = document.getElementById('ingredients');
+            const row = document.createElement('div');
+            row.className = 'ingredient-row';
+            row.style.cssText = 'display: flex; gap: 1rem; margin-bottom: 1rem;';
+            row.innerHTML = `
+                <input type="number" class="ingredient-amount" step="any" placeholder="Amount" style="flex: 1;">
+                <input type="text" class="ingredient-unit" placeholder="Unit" style="flex: 1;">
+                <input type="text" class="ingredient-name" placeholder="Ingredient" style="flex: 2;">
+                <button type="button" onclick="this.parentElement.remove()" class="btn btn-secondary" style="padding: 0.5rem;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(row);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('recipeForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const originalServings = parseFloat(document.getElementById('originalServings').value);
+                const desiredServings = parseFloat(document.getElementById('desiredServings').value);
+                const scaleFactor = desiredServings / originalServings;
+
+                const ingredientRows = document.querySelectorAll('.ingredient-row');
+                let scaledHtml = '';
+
+                ingredientRows.forEach(row => {
+                    const amount = parseFloat(row.querySelector('.ingredient-amount').value);
+                    const unit = row.querySelector('.ingredient-unit').value;
+                    const name = row.querySelector('.ingredient-name').value;
+
+                    if (amount && name) {
+                        const scaledAmount = amount * scaleFactor;
+                        scaledHtml += `
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">${name}:</span>
+                                <span class="breakdown-value">${scaledAmount.toFixed(2)} ${unit}</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                if (!scaledHtml) {
+                    alert('Please add at least one ingredient with amount and name');
+                    return;
+                }
+
+                document.getElementById('scaleFactor').textContent = scaleFactor.toFixed(2) + 'x';
+                document.getElementById('scaledIngredients').innerHTML = scaledHtml;
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+                document.getElementById('ingredients').innerHTML = `
+                    <div class="ingredient-row" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <input type="number" class="ingredient-amount" step="any" placeholder="Amount" style="flex: 1;">
+                        <input type="text" class="ingredient-unit" placeholder="Unit" style="flex: 1;">
+                        <input type="text" class="ingredient-name" placeholder="Ingredient" style="flex: 2;">
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

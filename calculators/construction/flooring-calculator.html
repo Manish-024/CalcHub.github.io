@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Flooring Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-th-large"></i><h1>Flooring Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate flooring materials needed with waste factor.</p></div>
+<div class="calculator-form"><form id="floorForm"><div class="form-section"><h3>Room Dimensions</h3>
+<div class="form-group"><label>Room Length (m)</label><input type="number" id="length" step="any" value="4.6" required></div>
+<div class="form-group"><label>Room Width (m)</label><input type="number" id="width" step="any" value="3.7" required></div>
+<div class="form-group"><label>Waste Factor (%)</label><input type="number" id="waste" step="any" value="10" required></div>
+<div class="form-group"><label>Price per Sq Meter (₹)</label><input type="number" id="price" step="any" value="400.00"></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Materials Needed</h3>
+<div class="result-item"><div class="result-value" id="sqft">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">Room Area:</span><span class="breakdown-value" id="roomArea">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">With Waste:</span><span class="breakdown-value" id="withWaste">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Total Cost:</span><span class="breakdown-value" id="cost">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Boxes Needed:</span><span class="breakdown-value" id="boxes">-- (@ 20 sq ft/box)</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('floorForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const length = parseFloat(document.getElementById('length').value);
+    const width = parseFloat(document.getElementById('width').value);
+    const waste = parseFloat(document.getElementById('waste').value) / 100;
+    const price = parseFloat(document.getElementById('price').value) || 0;
+    
+    const roomArea = length * width;
+    const withWaste = roomArea * (1 + waste);
+    const boxes = Math.ceil(withWaste / 1.86); // approximate 1.86 m² per box
+    const totalCost = withWaste * price;
+    
+    document.getElementById('sqft').textContent = withWaste.toFixed(2) + ' m²';
+    document.getElementById('roomArea').textContent = roomArea.toFixed(2) + ' m²';
+    document.getElementById('withWaste').textContent = withWaste.toFixed(2) + ' m²';
+    document.getElementById('boxes').textContent = boxes + ' boxes (@ 1.86 m²/box)';
+    document.getElementById('cost').textContent = price > 0 ? '₹' + totalCost.toFixed(2) : 'N/A';
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

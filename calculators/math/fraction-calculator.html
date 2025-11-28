@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraction Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-divide"></i>
+                <h1>Fraction Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Perform arithmetic operations with fractions: addition, subtraction, multiplication, and division.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="fractionForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-calculator"></i> Fraction 1</h3>
+                            
+                            <div class="form-group">
+                                <label for="num1">Numerator</label>
+                                <input type="number" id="num1" step="any" value="1" required placeholder="e.g., 1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="den1">Denominator</label>
+                                <input type="number" id="den1" step="any" value="2" required placeholder="e.g., 2">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-plus-minus"></i> Operation</h3>
+                            
+                            <div class="form-group">
+                                <label for="operation">Operation</label>
+                                <select id="operation" required>
+                                    <option value="+">Addition (+)</option>
+                                    <option value="-">Subtraction (-)</option>
+                                    <option value="*">Multiplication (×)</option>
+                                    <option value="/">Division (÷)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-calculator"></i> Fraction 2</h3>
+                            
+                            <div class="form-group">
+                                <label for="num2">Numerator</label>
+                                <input type="number" id="num2" step="any" value="1" required placeholder="e.g., 1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="den2">Denominator</label>
+                                <input type="number" id="den2" step="any" value="3" required placeholder="e.g., 3">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-equals"></i> Result</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Answer</div>
+                        <div class="result-value" id="answer" style="color: var(--primary-color);">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Details</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Simplified:</span>
+                            <span class="breakdown-value" id="simplified">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Decimal:</span>
+                            <span class="breakdown-value" id="decimal">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Mixed Number:</span>
+                            <span class="breakdown-value" id="mixed">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        function gcd(a, b) {
+            return b === 0 ? Math.abs(a) : gcd(b, a % b);
+        }
+
+        function simplifyFraction(num, den) {
+            if (den === 0) return { num: 0, den: 0 };
+            const divisor = gcd(num, den);
+            return { num: num / divisor, den: den / divisor };
+        }
+
+        function toMixedNumber(num, den) {
+            if (den === 0) return 'Undefined';
+            const whole = Math.floor(Math.abs(num) / Math.abs(den));
+            const remainder = Math.abs(num) % Math.abs(den);
+            const sign = (num * den < 0) ? '-' : '';
+            if (whole === 0) return sign + remainder + '/' + Math.abs(den);
+            if (remainder === 0) return sign + whole;
+            return sign + whole + ' ' + remainder + '/' + Math.abs(den);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('fractionForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const num1 = parseFloat(document.getElementById('num1').value);
+                const den1 = parseFloat(document.getElementById('den1').value);
+                const num2 = parseFloat(document.getElementById('num2').value);
+                const den2 = parseFloat(document.getElementById('den2').value);
+                const op = document.getElementById('operation').value;
+
+                if (den1 === 0 || den2 === 0) {
+                    alert('Denominator cannot be zero!');
+                    return;
+                }
+
+                let resultNum, resultDen;
+
+                switch(op) {
+                    case '+':
+                        resultNum = num1 * den2 + num2 * den1;
+                        resultDen = den1 * den2;
+                        break;
+                    case '-':
+                        resultNum = num1 * den2 - num2 * den1;
+                        resultDen = den1 * den2;
+                        break;
+                    case '*':
+                        resultNum = num1 * num2;
+                        resultDen = den1 * den2;
+                        break;
+                    case '/':
+                        resultNum = num1 * den2;
+                        resultDen = den1 * num2;
+                        break;
+                }
+
+                const simplified = simplifyFraction(resultNum, resultDen);
+                const decimal = resultDen !== 0 ? (resultNum / resultDen).toFixed(6) : 'Undefined';
+                const mixed = toMixedNumber(simplified.num, simplified.den);
+
+                document.getElementById('answer').textContent = resultNum + '/' + resultDen;
+                document.getElementById('simplified').textContent = simplified.num + '/' + simplified.den;
+                document.getElementById('decimal').textContent = decimal;
+                document.getElementById('mixed').textContent = mixed;
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

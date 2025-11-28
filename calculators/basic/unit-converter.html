@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <div class="calculator-title"><i class="fas fa-exchange-alt"></i><h1>Unit Converter</h1></div>
+        </div>
+    </header>
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Convert between various units of measurement including length, weight, temperature, and volume.</p>
+                </div>
+                <div class="calculator-form">
+                    <form id="converterForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-ruler"></i> Conversion Type</h3>
+                            <div class="form-group">
+                                <label for="type">Category</label>
+                                <select id="type" onchange="updateUnits()">
+                                    <option value="length">Length</option>
+                                    <option value="weight">Weight</option>
+                                    <option value="temperature">Temperature</option>
+                                    <option value="volume">Volume</option>
+                                    <option value="area">Area</option>
+                                    <option value="speed">Speed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3><i class="fas fa-arrows-alt-h"></i> Convert</h3>
+                            <div class="form-group">
+                                <label for="value">Value</label>
+                                <input type="number" id="value" step="any" value="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fromUnit">From</label>
+                                <select id="fromUnit"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="toUnit">To</label>
+                                <select id="toUnit"></select>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Convert</button>
+                            <button type="reset" class="btn btn-secondary"><i class="fas fa-redo"></i> Reset</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-equals"></i> Result</h3>
+                    <div class="result-item">
+                        <div class="result-value" id="resultValue">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer><div class="container"><p>&copy; 2025 CalcHub. All rights reserved.</p></div></footer>
+    <script>
+        const units = {
+            length: { meter: 1, kilometer: 0.001, centimeter: 100, millimeter: 1000, mile: 0.000621371, yard: 1.09361, foot: 3.28084, inch: 39.3701 },
+            weight: { kilogram: 1, gram: 1000, milligram: 1000000, pound: 2.20462, ounce: 35.274, ton: 0.001 },
+            temperature: { celsius: 'c', fahrenheit: 'f', kelvin: 'k' },
+            volume: { liter: 1, milliliter: 1000, gallon: 0.264172, quart: 1.05669, pint: 2.11338, cup: 4.22675, tablespoon: 67.628, teaspoon: 202.884 },
+            area: { 'sq meter': 1, 'sq kilometer': 0.000001, 'sq centimeter': 10000, 'sq mile': 3.861e-7, 'sq yard': 1.19599, 'sq foot': 10.7639, 'sq inch': 1550, acre: 0.000247105, hectare: 0.0001 },
+            speed: { 'meter/sec': 1, 'km/hour': 3.6, 'mile/hour': 2.23694, 'foot/sec': 3.28084, knot: 1.94384 }
+        };
+
+        function updateUnits() {
+            const type = document.getElementById('type').value;
+            const fromUnit = document.getElementById('fromUnit');
+            const toUnit = document.getElementById('toUnit');
+            fromUnit.innerHTML = '';
+            toUnit.innerHTML = '';
+            for (let unit in units[type]) {
+                fromUnit.innerHTML += `<option value="${unit}">${unit}</option>`;
+                toUnit.innerHTML += `<option value="${unit}">${unit}</option>`;
+            }
+            if (toUnit.options.length > 1) toUnit.selectedIndex = 1;
+        }
+
+        document.addEventListener('DOMContentLoaded', updateUnits);
+
+        document.getElementById('converterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const value = parseFloat(document.getElementById('value').value);
+            const type = document.getElementById('type').value;
+            const from = document.getElementById('fromUnit').value;
+            const to = document.getElementById('toUnit').value;
+            
+            let result;
+            if (type === 'temperature') {
+                // Temperature conversion
+                let celsius;
+                if (from === 'celsius') celsius = value;
+                else if (from === 'fahrenheit') celsius = (value - 32) * 5/9;
+                else if (from === 'kelvin') celsius = value - 273.15;
+                
+                if (to === 'celsius') result = celsius;
+                else if (to === 'fahrenheit') result = celsius * 9/5 + 32;
+                else if (to === 'kelvin') result = celsius + 273.15;
+            } else {
+                result = value * units[type][to] / units[type][from];
+            }
+            
+            document.getElementById('resultValue').textContent = `${value} ${from} = ${result.toFixed(6)} ${to}`;
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        document.getElementById('converterForm').addEventListener('reset', () => document.getElementById('result').style.display = 'none');
+    </script>
+</body>
+</html>

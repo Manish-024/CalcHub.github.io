@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .calc-display { background: #2c3e50; color: #fff; padding: 1.5rem; text-align: right; font-size: 1.75rem; border-radius: 8px; margin-bottom: 1rem; min-height: 60px; word-wrap: break-word; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+        .calc-btn { padding: 1rem; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; background: #ecf0f1; }
+        .calc-btn:hover { background: #bdc3c7; transform: scale(1.05); }
+        .calc-btn.operator { background: #3498db; color: white; }
+        .calc-btn.equals { background: #2ecc71; color: white; }
+        .calc-btn.clear { background: #e74c3c; color: white; }
+        .calc-btn.function { background: #9b59b6; color: white; }
+    </style>
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-calculator"></i>
+                <h1>Scientific Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Advanced scientific calculator with trigonometric functions, logarithms, exponents, and more.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <div class="calc-display" id="display">0</div>
+                    <div class="calc-buttons">
+                        <button class="calc-btn clear" onclick="clearDisplay()">C</button>
+                        <button class="calc-btn operator" onclick="appendToDisplay('(')">(</button>
+                        <button class="calc-btn operator" onclick="appendToDisplay(')')">)</button>
+                        <button class="calc-btn operator" onclick="appendToDisplay('/')">÷</button>
+                        <button class="calc-btn function" onclick="appendFunction('Math.sqrt(')">√</button>
+                        
+                        <button class="calc-btn function" onclick="appendFunction('Math.sin(')">sin</button>
+                        <button class="calc-btn function" onclick="appendFunction('Math.cos(')">cos</button>
+                        <button class="calc-btn function" onclick="appendFunction('Math.tan(')">tan</button>
+                        <button class="calc-btn operator" onclick="appendToDisplay('*')">×</button>
+                        <button class="calc-btn function" onclick="appendFunction('Math.pow(')">x^y</button>
+                        
+                        <button class="calc-btn" onclick="appendToDisplay('7')">7</button>
+                        <button class="calc-btn" onclick="appendToDisplay('8')">8</button>
+                        <button class="calc-btn" onclick="appendToDisplay('9')">9</button>
+                        <button class="calc-btn operator" onclick="appendToDisplay('-')">−</button>
+                        <button class="calc-btn function" onclick="appendFunction('Math.log(')">ln</button>
+                        
+                        <button class="calc-btn" onclick="appendToDisplay('4')">4</button>
+                        <button class="calc-btn" onclick="appendToDisplay('5')">5</button>
+                        <button class="calc-btn" onclick="appendToDisplay('6')">6</button>
+                        <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
+                        <button class="calc-btn function" onclick="appendFunction('Math.log10(')">log</button>
+                        
+                        <button class="calc-btn" onclick="appendToDisplay('1')">1</button>
+                        <button class="calc-btn" onclick="appendToDisplay('2')">2</button>
+                        <button class="calc-btn" onclick="appendToDisplay('3')">3</button>
+                        <button class="calc-btn equals" onclick="calculate()">=</button>
+                        <button class="calc-btn function" onclick="appendConstant('Math.PI')">π</button>
+                        
+                        <button class="calc-btn" onclick="appendToDisplay('0')">0</button>
+                        <button class="calc-btn" onclick="appendToDisplay('.')">.</button>
+                        <button class="calc-btn function" onclick="appendConstant('Math.E')">e</button>
+                        <button class="calc-btn function" onclick="appendToDisplay('%')">%</button>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <h4>Functions Available</h4>
+                    <p><strong>Trigonometric:</strong> sin, cos, tan (input in radians)</p>
+                    <p><strong>Logarithmic:</strong> ln (natural log), log (base 10)</p>
+                    <p><strong>Powers:</strong> x^y (e.g., 2^3 for 2 cubed)</p>
+                    <p><strong>Constants:</strong> π (pi ≈ 3.14159), e (≈ 2.71828)</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentValue = '0';
+
+        function appendToDisplay(value) {
+            if (currentValue === '0' && value !== '.') {
+                currentValue = value;
+            } else {
+                currentValue += value;
+            }
+            display.textContent = currentValue;
+        }
+
+        function appendFunction(func) {
+            if (currentValue === '0') {
+                currentValue = func;
+            } else {
+                currentValue += func;
+            }
+            display.textContent = currentValue;
+        }
+
+        function appendConstant(constant) {
+            if (currentValue === '0') {
+                currentValue = constant;
+            } else {
+                currentValue += constant;
+            }
+            display.textContent = currentValue;
+        }
+
+        function clearDisplay() {
+            currentValue = '0';
+            display.textContent = currentValue;
+        }
+
+        function calculate() {
+            try {
+                let result = eval(currentValue);
+                currentValue = result.toString();
+                display.textContent = parseFloat(currentValue).toFixed(8).replace(/\.?0+$/, '');
+            } catch (error) {
+                display.textContent = 'Error';
+                currentValue = '0';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Currency Converter - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-dollar-sign"></i><h1>Currency Converter</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Convert between major world currencies (rates updated periodically).</p></div>
+<div class="calculator-form"><form id="currencyForm"><div class="form-section"><h3>Convert</h3>
+<div class="form-group"><label>Amount</label><input type="number" id="amount" step="any" value="100" required></div>
+<div class="form-group"><label>From</label><select id="from"><option value="INR" selected>INR - Indian Rupee</option><option value="USD">USD - US Dollar</option><option value="EUR">EUR - Euro</option><option value="GBP">GBP - British Pound</option><option value="JPY">JPY - Japanese Yen</option><option value="AUD">AUD - Australian Dollar</option><option value="CAD">CAD - Canadian Dollar</option><option value="CHF">CHF - Swiss Franc</option><option value="CNY">CNY - Chinese Yuan</option><option value="MXN">MXN - Mexican Peso</option><option value="AED">AED - UAE Dirham</option><option value="SAR">SAR - Saudi Riyal</option></select></div>
+<div class="form-group"><label>To</label><select id="to"><option value="INR" selected>INR - Indian Rupee</option><option value="USD">USD - US Dollar</option><option value="EUR">EUR - Euro</option><option value="GBP">GBP - British Pound</option><option value="JPY">JPY - Japanese Yen</option><option value="AUD">AUD - Australian Dollar</option><option value="CAD">CAD - Canadian Dollar</option><option value="CHF">CHF - Swiss Franc</option><option value="CNY">CNY - Chinese Yuan</option><option value="MXN">MXN - Mexican Peso</option><option value="AED">AED - UAE Dirham</option><option value="SAR">SAR - Saudi Riyal</option></select></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Convert</button></div></form></div>
+<div id="result" class="result-container"><h3>Converted Amount</h3>
+<div class="result-item"><div class="result-value" id="converted">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">Exchange Rate:</span><span class="breakdown-value" id="rate">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Inverse Rate:</span><span class="breakdown-value" id="inverseRate">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script src="../../js/calculators/basic/currency-converter.js"></script>
+</body></html>
