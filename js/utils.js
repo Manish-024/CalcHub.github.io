@@ -183,3 +183,54 @@ if (typeof module !== 'undefined' && module.exports) {
         loadFromStorage
     };
 }
+
+// Add a normalized Home button to page headers if not present.
+// Uses an absolute link to the site root so it works from all pages.
+(function addHomeButtonToHeaders() {
+    if (typeof document === 'undefined') return;
+
+    function insertHomeButtons() {
+        try {
+            // Prevent duplicate insertion
+            if (document.querySelector('.home-button')) return;
+
+            const homeHref = '/index.html';
+            // Find header containers - covers both root headers and calculator headers
+            const containers = document.querySelectorAll('header .container');
+            containers.forEach(container => {
+                if (container.querySelector('.home-button')) return;
+
+                const a = document.createElement('a');
+                a.className = 'home-button';
+                a.href = homeHref;
+                a.setAttribute('aria-label', 'Home');
+                a.setAttribute('rel', 'noopener noreferrer');
+                a.innerHTML = '<i class="fas fa-home"></i>';
+
+                // If there's a back-button, add home after it for consistent placement
+                const back = container.querySelector('.back-button');
+                if (back && back.parentNode === container) {
+                    back.insertAdjacentElement('afterend', a);
+                } else {
+                    // Otherwise try to place after the logo, or at the start of the container
+                    const logo = container.querySelector('.logo');
+                    if (logo && logo.parentNode === container) {
+                        logo.insertAdjacentElement('afterend', a);
+                    } else {
+                        container.insertBefore(a, container.firstChild);
+                    }
+                }
+            });
+        } catch (e) {
+            // Fail silently - non-critical UI enhancement
+            // eslint-disable-next-line no-console
+            console.error('Failed to insert home buttons:', e);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertHomeButtons);
+    } else {
+        insertHomeButtons();
+    }
+})();

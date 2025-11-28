@@ -160,18 +160,140 @@ main {
     line-height: 1.5;
 }
 
-/* Footer */
-footer {
-    background-color: var(--text-primary);
+/* Header helpers for calculator pages */
+.calculator-header .back-button,
+.calculator-header .home-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     color: white;
-    text-align: center;
-    padding: 2rem 0;
-    margin-top: 4rem;
+    text-decoration: none;
+    background: rgba(255,255,255,0.06);
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+    margin-right: 0.75rem;
+    font-weight: 600;
 }
 
-footer p {
+.calculator-header .home-button i {
+    font-size: 1rem;
+}
+
+.calculator-header .back-button i,
+.calculator-header .home-button i {
+    color: white;
+}
+
+/* Generic header home button (for root pages like About/Privacy/Terms) */
+header .home-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: 0.75rem;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+}
+
+header .home-button i {
+    font-size: 1rem;
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--text-primary);
+    color: white;
+    margin-top: 4rem;
+    padding: 3rem 0 1.5rem;
+}
+
+.site-footer .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    padding-bottom: 1.25rem;
+}
+
+.site-footer h3,
+.site-footer h4 {
+    margin-bottom: 0.5rem;
+}
+
+.site-footer .footer-brand h3 {
+    font-size: 1.25rem;
+    color: #fff;
+}
+
+.site-footer .muted {
+    color: rgba(255,255,255,0.85);
+}
+
+.site-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-footer a {
+    color: rgba(255,255,255,0.95);
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+.site-footer .footer-contact p {
     margin: 0.25rem 0;
-    opacity: 0.9;
+}
+
+.site-footer .social {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.site-footer .social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+    color: white;
+}
+
+.site-footer .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.site-footer small {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Make footer responsive */
+@media (max-width: 900px) {
+    .site-footer .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .site-footer .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .site-footer .social a {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 /* Responsive Design */

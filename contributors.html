@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Contributors to the CalcHub project">
+  <title>Contributors — CalcHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <i class="fas fa-calculator"></i>
+        <h1>CalcHub</h1>
+      </div>
+      <a href="index.html" class="home-button" aria-label="Home"><i class="fas fa-home"></i></a>
+      <p class="tagline">Project contributors</p>
+    </div>
+  </header>
+
+  <main class="container" style="padding:2rem 0;">
+    <section class="intro">
+      <h2>Contributors</h2>
+      <p>This page lists people who contributed to this repository. The list is fetched from GitHub; it will update automatically when new contributors are added. If you prefer, you can also add names manually by sending a pull request to this repository.</p>
+    </section>
+
+    <section id="contributors-list" style="margin-top:1.5rem;">
+      <div id="loading">Loading contributors…</div>
+      <div id="contributors" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem;"></div>
+      <div id="fallback" style="margin-top:1rem;color:var(--text-secondary);display:none;">
+        Unable to load contributors automatically. You can <a href="https://github.com/Manish-024/CalcHub.github.io/graphs/contributors" target="_blank" rel="noopener">view contributors on GitHub</a> or open a PR to add your name to the list.
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <h3>CalcHub</h3>
+        <p class="muted">Smarter calculations, simpler decisions.</p>
+      </div>
+
+      <nav class="footer-links" aria-label="Quick links">
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="calculators/basic/basic-calculator.html">Basic Calculator</a></li>
+          <li><a href="calculators/finance/loan-calculator.html">Loan & Mortgage</a></li>
+          <li><a href="calculators/health/bmi-calculator.html">Health & BMI</a></li>
+          <li><a href="calculators/everyday/password-generator.html">Password Generator</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-resources">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="about.html">About this project</a></li>
+          <li><a href="contributors.html">Contributors</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+          <li><a href="https://github.com/Manish-024/CalcHub.github.io" target="_blank" rel="noopener">Source on GitHub</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p class="muted">Questions, feedback or feature requests?</p>
+        <p><a href="mailto:luciferpoint.0@protonmail.com">luciferpoint.0@protonmail.com</a></p>
+        <div class="social">
+          <a href="https://github.com/Manish-024" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.linkedin.com/in/manish-kumar-mikekilo/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <small>&copy; 2025 CalcHub · Licensed under <a href="LICENSE">MIT</a> · Last updated Nov 28, 2025</small>
+    </div>
+  </footer>
+
+  <script>
+    async function loadContributors() {
+      const owner = 'Manish-024';
+      const repo = 'CalcHub.github.io';
+      const api = `https://api.github.com/repos/${owner}/${repo}/contributors`;
+      try {
+        const r = await fetch(api);
+        if (!r.ok) throw new Error('GitHub API error: ' + r.status);
+        const list = await r.json();
+        const container = document.getElementById('contributors');
+        document.getElementById('loading').style.display = 'none';
+        if (!Array.isArray(list) || list.length === 0) {
+          document.getElementById('fallback').style.display = 'block';
+          return;
+        }
+
+        list.forEach(u => {
+          const card = document.createElement('div');
+          card.style.cssText = 'background:var(--card-background);padding:1rem;border-radius:10px;border:1px solid var(--border-color);display:flex;align-items:center;gap:0.75rem;';
+          card.innerHTML = `
+            <img src="${u.avatar_url}&s=64" alt="${u.login}" style="width:48px;height:48px;border-radius:8px;object-fit:cover;">
+            <div style="flex:1;">
+              <div style="font-weight:700;color:var(--text-primary)"><a href="${u.html_url}" target="_blank" rel="noopener">${u.login}</a></div>
+              <div style="font-size:0.9rem;color:var(--text-secondary)">Contributions: ${u.contributions}</div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('fallback').style.display = 'block';
+        console.error('Failed loading contributors', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadContributors);
+  </script>
+
+  <script src="js/utils.js"></script>
+
+</body>
+</html>
