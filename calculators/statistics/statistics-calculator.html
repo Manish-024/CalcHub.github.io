@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-chart-bar"></i>
+                <h1>Statistics Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate mean, median, mode, range, variance, and standard deviation for your data set.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="statsForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-list-ol"></i> Data Set</h3>
+                            
+                            <div class="form-group">
+                                <label for="dataValues">
+                                    Enter Numbers <span class="required">*</span>
+                                    <span class="hint">(comma or space separated)</span>
+                                </label>
+                                <textarea id="dataValues" rows="4" required placeholder="e.g., 10, 20, 30, 40, 50 or 10 20 30 40 50"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Statistics
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-chart-line"></i> Statistical Results</h3>
+                    
+                    <div class="result-breakdown">
+                        <h4>Measures of Central Tendency</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Mean (Average):</span>
+                            <span class="breakdown-value" id="mean">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Median (Middle Value):</span>
+                            <span class="breakdown-value" id="median">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Mode (Most Frequent):</span>
+                            <span class="breakdown-value" id="mode">--</span>
+                        </div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Measures of Spread</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Range:</span>
+                            <span class="breakdown-value" id="range">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Variance:</span>
+                            <span class="breakdown-value" id="variance">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Standard Deviation:</span>
+                            <span class="breakdown-value" id="stdDev">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Count:</span>
+                            <span class="breakdown-value" id="count">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Sum:</span>
+                            <span class="breakdown-value" id="sum">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('statsForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const input = document.getElementById('dataValues').value;
+                const numbers = input.split(/[,\s]+/).map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+                
+                if (numbers.length === 0) {
+                    alert('Please enter valid numbers');
+                    return;
+                }
+
+                numbers.sort((a, b) => a - b);
+
+                // Mean
+                const sum = numbers.reduce((a, b) => a + b, 0);
+                const mean = sum / numbers.length;
+
+                // Median
+                const mid = Math.floor(numbers.length / 2);
+                const median = numbers.length % 2 === 0 
+                    ? (numbers[mid - 1] + numbers[mid]) / 2 
+                    : numbers[mid];
+
+                // Mode
+                const freq = {};
+                numbers.forEach(n => freq[n] = (freq[n] || 0) + 1);
+                const maxFreq = Math.max(...Object.values(freq));
+                const modes = Object.keys(freq).filter(k => freq[k] === maxFreq);
+                const mode = maxFreq === 1 ? 'No mode' : modes.join(', ');
+
+                // Range
+                const range = numbers[numbers.length - 1] - numbers[0];
+
+                // Variance and Standard Deviation
+                const variance = numbers.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / numbers.length;
+                const stdDev = Math.sqrt(variance);
+
+                // Display results
+                document.getElementById('mean').textContent = mean.toFixed(4);
+                document.getElementById('median').textContent = median.toFixed(4);
+                document.getElementById('mode').textContent = mode;
+                document.getElementById('range').textContent = range.toFixed(4);
+                document.getElementById('variance').textContent = variance.toFixed(4);
+                document.getElementById('stdDev').textContent = stdDev.toFixed(4);
+                document.getElementById('count').textContent = numbers.length;
+                document.getElementById('sum').textContent = sum.toFixed(4);
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

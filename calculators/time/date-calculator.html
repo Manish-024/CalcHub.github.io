@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-calendar-plus"></i>
+                <h1>Date Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Add or subtract days, weeks, months, or years from any date. Perfect for planning future events or calculating past dates.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="dateForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-calendar-day"></i> Starting Date</h3>
+                            
+                            <div class="form-group">
+                                <label for="startDate">
+                                    Date <span class="required">*</span>
+                                </label>
+                                <input type="date" id="startDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="includeTime"> Include specific time
+                                </label>
+                            </div>
+
+                            <div class="form-group" id="timeGroup" style="display: none;">
+                                <label for="startTime">Time</label>
+                                <input type="time" id="startTime">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-plus-minus"></i> Add or Subtract</h3>
+                            
+                            <div class="form-group">
+                                <label for="operation">Operation <span class="required">*</span></label>
+                                <select id="operation" required>
+                                    <option value="add">➕ Add time to date</option>
+                                    <option value="subtract">➖ Subtract time from date</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="years">Years</label>
+                                <input type="number" id="years" min="0" step="any" value="0" placeholder="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="months">Months</label>
+                                <input type="number" id="months" min="0" step="any" value="0" placeholder="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="weeks">Weeks</label>
+                                <input type="number" id="weeks" min="0" step="any" value="0" placeholder="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="days">Days</label>
+                                <input type="number" id="days" min="0" step="any" value="0" placeholder="0">
+                            </div>
+
+                            <div class="form-group" id="hoursGroup" style="display: none;">
+                                <label for="hours">Hours</label>
+                                <input type="number" id="hours" min="0" step="any" value="0" placeholder="0">
+                            </div>
+
+                            <div class="form-group" id="minutesGroup" style="display: none;">
+                                <label for="minutes">Minutes</label>
+                                <input type="number" id="minutes" min="0" step="any" value="0" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Date
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-calendar-check"></i> Result</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Starting Date</div>
+                        <div class="result-value" id="startingDate" style="font-size: 1.2rem;">--</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Result Date</div>
+                        <div class="result-value" id="resultDate">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Calculation Details</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Operation:</span>
+                            <span class="breakdown-value" id="operationText">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Time Added/Subtracted:</span>
+                            <span class="breakdown-value" id="timeChange">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Day of Week:</span>
+                            <span class="breakdown-value" id="dayOfWeek">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Week Number:</span>
+                            <span class="breakdown-value" id="weekNumber">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Days Until/Since:</span>
+                            <span class="breakdown-value" id="daysDiff">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="date-calculator.js"></script>
+</body>
+</html>

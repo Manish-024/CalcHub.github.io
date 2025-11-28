@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Physics Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-atom"></i><h1>Physics Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate velocity, acceleration, force, and kinetic energy.</p></div>
+<div class="calculator-form"><form id="physicsForm"><div class="form-section"><h3>Select Calculation</h3>
+<div class="form-group"><label>Formula</label><select id="formula"><option value="velocity">Velocity (v = d/t)</option><option value="acceleration">Acceleration (a = Δv/t)</option><option value="force">Force (F = ma)</option><option value="kinetic">Kinetic Energy (KE = ½mv²)</option><option value="potential">Potential Energy (PE = mgh)</option></select></div>
+<div id="inputs"></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Result</h3>
+<div class="result-item"><div class="result-value" id="resultValue">--</div></div>
+</div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+const formulas = {
+    velocity: [{label: 'Distance (m)', id: 'distance'}, {label: 'Time (s)', id: 'time'}],
+    acceleration: [{label: 'Initial Velocity (m/s)', id: 'v0'}, {label: 'Final Velocity (m/s)', id: 'v1'}, {label: 'Time (s)', id: 'time'}],
+    force: [{label: 'Mass (kg)', id: 'mass'}, {label: 'Acceleration (m/s²)', id: 'accel'}],
+    kinetic: [{label: 'Mass (kg)', id: 'mass'}, {label: 'Velocity (m/s)', id: 'velocity'}],
+    potential: [{label: 'Mass (kg)', id: 'mass'}, {label: 'Height (m)', id: 'height'}, {label: 'Gravity (m/s²)', id: 'gravity', value: 9.8}]
+};
+function updateInputs() {
+    const formula = document.getElementById('formula').value;
+    const inputs = document.getElementById('inputs');
+    inputs.innerHTML = '';
+    formulas[formula].forEach(field => {
+        const div = document.createElement('div');
+        div.className = 'form-group';
+        div.innerHTML = '<label>' + field.label + '</label><input type="number" id="' + field.id + '" step="any" value="' + (field.value || '') + '" required>';
+        inputs.appendChild(div);
+    });
+}
+document.getElementById('formula').addEventListener('change', updateInputs);
+updateInputs();
+document.getElementById('physicsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formula = document.getElementById('formula').value;
+    let result, unit;
+    if (formula === 'velocity') {
+        const d = parseFloat(document.getElementById('distance').value);
+        const t = parseFloat(document.getElementById('time').value);
+        result = d / t;
+        unit = 'm/s';
+    } else if (formula === 'acceleration') {
+        const v0 = parseFloat(document.getElementById('v0').value);
+        const v1 = parseFloat(document.getElementById('v1').value);
+        const t = parseFloat(document.getElementById('time').value);
+        result = (v1 - v0) / t;
+        unit = 'm/s²';
+    } else if (formula === 'force') {
+        const m = parseFloat(document.getElementById('mass').value);
+        const a = parseFloat(document.getElementById('accel').value);
+        result = m * a;
+        unit = 'N (Newtons)';
+    } else if (formula === 'kinetic') {
+        const m = parseFloat(document.getElementById('mass').value);
+        const v = parseFloat(document.getElementById('velocity').value);
+        result = 0.5 * m * v * v;
+        unit = 'J (Joules)';
+    } else if (formula === 'potential') {
+        const m = parseFloat(document.getElementById('mass').value);
+        const h = parseFloat(document.getElementById('height').value);
+        const g = parseFloat(document.getElementById('gravity').value);
+        result = m * g * h;
+        unit = 'J (Joules)';
+    }
+    document.getElementById('resultValue').textContent = result.toFixed(4) + ' ' + unit;
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

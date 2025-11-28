@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Probability Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-dice-d20"></i><h1>Probability Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate probability of events, combinations, and permutations.</p></div>
+<div class="calculator-form"><form id="probForm"><div class="form-section"><h3>Calculation Type</h3>
+<div class="form-group"><label>Type</label><select id="type"><option value="simple">Simple Probability</option><option value="combo">Combinations (nCr)</option><option value="perm">Permutations (nPr)</option></select></div>
+<div id="simpleInputs">
+<div class="form-group"><label>Favorable Outcomes</label><input type="number" id="favorable" step="any" value="1" required></div>
+<div class="form-group"><label>Total Outcomes</label><input type="number" id="total" step="any" value="6" required></div>
+</div>
+<div id="comboInputs" style="display:none;">
+<div class="form-group"><label>n (total items)</label><input type="number" id="n" step="1" min="0" value="10"></div>
+<div class="form-group"><label>r (items to choose)</label><input type="number" id="r" step="1" min="0" value="3"></div>
+</div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Result</h3>
+<div class="result-item"><div class="result-value" id="resultValue">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">As Percentage:</span><span class="breakdown-value" id="percentage">--</span></div></div>
+</div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+function factorial(n) {
+    if (n <= 1) return 1;
+    let result = 1;
+    for (let i = 2; i <= n; i++) result *= i;
+    return result;
+}
+document.getElementById('type').addEventListener('change', function() {
+    const type = this.value;
+    document.getElementById('simpleInputs').style.display = type === 'simple' ? 'block' : 'none';
+    document.getElementById('comboInputs').style.display = type !== 'simple' ? 'block' : 'none';
+});
+document.getElementById('probForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const type = document.getElementById('type').value;
+    let result;
+    
+    if (type === 'simple') {
+        const favorable = parseFloat(document.getElementById('favorable').value);
+        const total = parseFloat(document.getElementById('total').value);
+        result = favorable / total;
+        document.getElementById('resultValue').textContent = result.toFixed(6);
+        document.getElementById('percentage').textContent = (result * 100).toFixed(4) + '%';
+    } else {
+        const n = parseInt(document.getElementById('n').value);
+        const r = parseInt(document.getElementById('r').value);
+        
+        if (r > n) {
+            alert('r cannot be greater than n');
+            return;
+        }
+        
+        if (type === 'combo') {
+            result = factorial(n) / (factorial(r) * factorial(n - r));
+            document.getElementById('resultValue').textContent = Math.round(result).toLocaleString() + ' combinations';
+        } else {
+            result = factorial(n) / factorial(n - r);
+            document.getElementById('resultValue').textContent = Math.round(result).toLocaleString() + ' permutations';
+        }
+        document.getElementById('percentage').textContent = 'N/A';
+    }
+    
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

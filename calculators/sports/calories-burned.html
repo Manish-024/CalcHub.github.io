@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calories Burned Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-fire-alt"></i>
+                <h1>Calories Burned Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate calories burned during various physical activities based on your weight, duration, and activity intensity.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="caloriesForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-weight"></i> Your Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="weight">Weight <span class="required">*</span></label>
+                                <input type="number" id="weight" min="20" step="any" value="70" required placeholder="e.g., 70">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="weightUnit">Unit</label>
+                                <select id="weightUnit">
+                                    <option value="kg">Kilograms (kg)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-dumbbell"></i> Activity</h3>
+                            
+                            <div class="form-group">
+                                <label for="activity">Activity Type <span class="required">*</span></label>
+                                <select id="activity" required>
+                                    <option value="3.5">Walking (3.5 mph)</option>
+                                    <option value="5">Walking (4.5 mph)</option>
+                                    <option value="8">Running (5 mph)</option>
+                                    <option value="10">Running (6 mph)</option>
+                                    <option value="11.5">Running (7 mph)</option>
+                                    <option value="7.5">Cycling (moderate)</option>
+                                    <option value="10">Cycling (vigorous)</option>
+                                    <option value="6">Swimming (moderate)</option>
+                                    <option value="10">Swimming (vigorous)</option>
+                                    <option value="7">Weight Training</option>
+                                    <option value="6.5">Yoga</option>
+                                    <option value="7">Dancing</option>
+                                    <option value="8">Jump Rope</option>
+                                    <option value="5">Hiking</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="duration">Duration (minutes) <span class="required">*</span></label>
+                                <input type="number" id="duration" min="1" step="any" value="30" required placeholder="e.g., 30">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Calories
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-fire"></i> Calories Burned</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Total Calories Burned</div>
+                        <div class="result-value" id="caloriesValue" style="color: var(--primary-color);">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Activity Summary</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Activity:</span>
+                            <span class="breakdown-value" id="activityName">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Duration:</span>
+                            <span class="breakdown-value" id="durationValue">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Calories per minute:</span>
+                            <span class="breakdown-value" id="caloriesPerMin">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Calories per hour:</span>
+                            <span class="breakdown-value" id="caloriesPerHour">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <p><strong>Note:</strong> Calorie calculations are estimates based on MET (Metabolic Equivalent of Task) values. Actual calories burned may vary based on individual factors like fitness level, body composition, and exercise intensity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('caloriesForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let weight = parseFloat(document.getElementById('weight').value);
+                const weightUnit = document.getElementById('weightUnit').value;
+                const met = parseFloat(document.getElementById('activity').value);
+                const duration = parseFloat(document.getElementById('duration').value);
+                const activityText = document.getElementById('activity').options[document.getElementById('activity').selectedIndex].text;
+
+                // weight is expected in kg (metric). No conversion necessary.
+
+                // Calculate calories: MET * weight(kg) * duration(hours)
+                const durationHours = duration / 60;
+                const caloriesBurned = met * weight * durationHours;
+                const caloriesPerMin = caloriesBurned / duration;
+                const caloriesPerHour = caloriesBurned / durationHours;
+
+                document.getElementById('caloriesValue').textContent = Math.round(caloriesBurned) + ' calories';
+                document.getElementById('activityName').textContent = activityText;
+                document.getElementById('durationValue').textContent = duration + ' minutes';
+                document.getElementById('caloriesPerMin').textContent = caloriesPerMin.toFixed(1) + ' cal/min';
+                document.getElementById('caloriesPerHour').textContent = Math.round(caloriesPerHour) + ' cal/hour';
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
