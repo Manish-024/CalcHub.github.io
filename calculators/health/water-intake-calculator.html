@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Intake Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-tint"></i>
+                <h1>Water Intake Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate your daily water intake needs based on your weight, activity level, and climate. Staying properly hydrated is essential for optimal health and performance.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="waterForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-weight"></i> Weight Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="weightKg">
+                                    Weight (kg) <span class="required">*</span>
+                                </label>
+                                <input type="number" id="weightKg" min="20" max="500" step="any" value="70" required placeholder="e.g., 70">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-running"></i> Activity Level</h3>
+                            
+                            <div class="form-group">
+                                <label for="activityLevel">
+                                    Physical Activity <span class="required">*</span>
+                                </label>
+                                <select id="activityLevel" required>
+                                    <option value="sedentary">Sedentary (little or no exercise)</option>
+                                    <option value="light" selected>Light (exercise 1-3 days/week)</option>
+                                    <option value="moderate">Moderate (exercise 3-5 days/week)</option>
+                                    <option value="active">Active (exercise 6-7 days/week)</option>
+                                    <option value="very_active">Very Active (intense daily exercise)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exerciseDuration">
+                                    Exercise Duration Today
+                                    <span class="hint">(minutes)</span>
+                                </label>
+                                <input type="number" id="exerciseDuration" min="0" max="480" step="any" value="0" placeholder="e.g., 60">
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-sun"></i> Climate & Conditions</h3>
+                            
+                            <div class="form-group">
+                                <label for="climate">
+                                    Climate <span class="required">*</span>
+                                </label>
+                                <select id="climate" required>
+                                    <option value="cool">Cool/Temperate</option>
+                                    <option value="moderate" selected>Moderate</option>
+                                    <option value="hot">Hot/Humid</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pregnant">
+                                    Pregnant or Breastfeeding?
+                                </label>
+                                <select id="pregnant">
+                                    <option value="none">No</option>
+                                    <option value="pregnant">Pregnant</option>
+                                    <option value="breastfeeding">Breastfeeding</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Water Intake
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-glass-water"></i> Your Daily Water Intake</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Recommended Daily Water Intake</div>
+                        <div class="result-value" id="waterValue" style="color: var(--primary-color);">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Alternative Measurements</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Liters:</span>
+                            <span class="breakdown-value" id="liters">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Milliliters:</span>
+                            <span class="breakdown-value" id="milliliters">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Fluid Ounces:</span>
+                            <span class="breakdown-value" id="fluidOunces">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Cups (8 oz):</span>
+                            <span class="breakdown-value" id="cups">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Glasses (250ml):</span>
+                            <span class="breakdown-value" id="glasses">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>Hydration Tips</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li>Drink water consistently throughout the day</li>
+                            <li>Increase intake during hot weather or intense exercise</li>
+                            <li>Monitor urine color - pale yellow indicates good hydration</li>
+                            <li>Include water-rich foods like fruits and vegetables</li>
+                            <li>Drink before you feel thirsty</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            <strong>Note:</strong> These are general guidelines. Individual needs may vary based on health conditions, medications, and other factors.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="water-intake-calculator.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Fat Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-percentage"></i>
+                <h1>Body Fat Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate your body fat percentage using the U.S. Navy Method. This method uses measurements of your neck, waist, and height (and hips for females) to estimate body fat.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="bodyFatForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="age">
+                                    Age <span class="required">*</span>
+                                </label>
+                                <input type="number" id="age" min="18" max="120" step="any" value="25" required placeholder="e.g., 25">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gender">
+                                    Gender <span class="required">*</span>
+                                </label>
+                                <select id="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="unitSystem">
+                                    Measurement System <span class="required">*</span>
+                                </label>
+                                <select id="unitSystem" required>
+                                    <option value="metric">Metric (cm)</option>
+                                    <option value="imperial">Imperial (inches)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-ruler"></i> Body Measurements</h3>
+                            
+                            <div class="form-group">
+                                <label for="height">
+                                    Height <span class="required">*</span>
+                                    <span class="hint" id="heightUnit">(cm)</span>
+                                </label>
+                                <input type="number" id="height" min="1" max="300" step="any" value="170" required placeholder="e.g., 170">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="neck">
+                                    Neck Circumference <span class="required">*</span>
+                                    <span class="hint" id="neckUnit">(cm)</span>
+                                </label>
+                                <input type="number" id="neck" min="1" max="100" step="any" value="37" required placeholder="e.g., 37">
+                                <small style="display: block; margin-top: 0.5rem; color: var(--text-secondary);">
+                                    Measure below the larynx (Adam's apple)
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="waist">
+                                    Waist Circumference <span class="required">*</span>
+                                    <span class="hint" id="waistUnit">(cm)</span>
+                                </label>
+                                <input type="number" id="waist" min="1" max="300" step="any" value="81" required placeholder="e.g., 81">
+                                <small style="display: block; margin-top: 0.5rem; color: var(--text-secondary);">
+                                    Measure at navel level for men, smallest point for women
+                                </small>
+                            </div>
+
+                            <div class="form-group" id="hipGroup" style="display: none;">
+                                <label for="hip">
+                                    Hip Circumference <span class="required">*</span>
+                                    <span class="hint" id="hipUnit">(cm)</span>
+                                </label>
+                                <input type="number" id="hip" min="1" max="300" step="any" value="95" placeholder="e.g., 95">
+                                <small style="display: block; margin-top: 0.5rem; color: var(--text-secondary);">
+                                    Measure at the widest point of the buttocks
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Body Fat
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-chart-pie"></i> Your Body Fat Results</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Body Fat Percentage</div>
+                        <div class="result-value" id="bodyFatValue">--</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Category</div>
+                        <div class="result-value" id="bodyFatCategory" style="font-size: 1.5rem;">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Body Composition</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Fat Mass:</span>
+                            <span class="breakdown-value" id="fatMass">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Lean Body Mass:</span>
+                            <span class="breakdown-value" id="leanMass">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4 id="categoryTitle">Body Fat Categories</h4>
+                        <div id="categoryTable"></div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            <strong>Note:</strong> This calculation uses the U.S. Navy body fat formula. For most accurate results, have measurements taken by a professional.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="body-fat-calculator.js"></script>
+</body>
+</html>

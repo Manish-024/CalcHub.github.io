@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-weight"></i>
+                <h1>BMI Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate your Body Mass Index (BMI) to assess if you're at a healthy weight. BMI is a measure of body fat based on height and weight that applies to adult men and women.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="bmiForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="age">
+                                    Age <span class="required">*</span>
+                                </label>
+                                <input type="number" id="age" min="2" max="120" step="any" value="25" required placeholder="e.g., 25">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gender">
+                                    Gender <span class="required">*</span>
+                                </label>
+                                <select id="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-ruler-vertical"></i> Height</h3>
+                            
+                            <div class="form-group">
+                                <label for="heightSystem">
+                                    Measurement System <span class="required">*</span>
+                                </label>
+                                <select id="heightSystem" required>
+                                    <option value="metric">Metric (cm)</option>
+                                    <option value="imperial">Imperial (ft, in)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="heightMetricGroup">
+                                <label for="heightCm">
+                                    Height (cm) <span class="required">*</span>
+                                </label>
+                                <input type="number" id="heightCm" min="50" max="300" step="any" value="170" required placeholder="e.g., 170">
+                            </div>
+
+                            <div id="heightImperialGroup" style="display: none;">
+                                <div class="form-group">
+                                    <label for="heightFeet">
+                                        Feet <span class="required">*</span>
+                                    </label>
+                                    <input type="number" id="heightFeet" min="1" max="9" step="any" value="5" placeholder="e.g., 5">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="heightInches">
+                                        Inches <span class="required">*</span>
+                                    </label>
+                                    <input type="number" id="heightInches" min="0" max="11" step="any" value="7" placeholder="e.g., 7">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-weight"></i> Weight</h3>
+                            
+                            <div class="form-group">
+                                <label for="weightSystem">
+                                    Measurement System <span class="required">*</span>
+                                </label>
+                                <select id="weightSystem" required>
+                                    <option value="metric">Metric (kg)</option>
+                                    <option value="imperial">Imperial (lbs)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="weightMetricGroup">
+                                <label for="weightKg">
+                                    Weight (kg) <span class="required">*</span>
+                                </label>
+                                <input type="number" id="weightKg" min="10" max="500" step="any" value="70" required placeholder="e.g., 70">
+                            </div>
+
+                            <div class="form-group" id="weightImperialGroup" style="display: none;">
+                                <label for="weightLbs">
+                                    Weight (lbs) <span class="required">*</span>
+                                </label>
+                                <input type="number" id="weightLbs" min="20" max="1100" step="any" value="154" placeholder="e.g., 154">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate BMI
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-chart-line"></i> Your BMI Results</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Body Mass Index (BMI)</div>
+                        <div class="result-value" id="bmiValue">--</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Category</div>
+                        <div class="result-value" id="bmiCategory" style="font-size: 1.5rem;">--</div>
+                    </div>
+
+                    <div id="bmiGauge" style="margin: 2rem 0;">
+                        <div style="display: flex; height: 30px; border-radius: 15px; overflow: hidden; margin-bottom: 0.5rem;">
+                            <div style="background: #3498db; flex: 18.5;"></div>
+                            <div style="background: #2ecc71; flex: 6.5;"></div>
+                            <div style="background: #f39c12; flex: 5;"></div>
+                            <div style="background: #e74c3c; flex: 10;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary);">
+                            <span>Underweight</span>
+                            <span>Normal</span>
+                            <span>Overweight</span>
+                            <span>Obese</span>
+                        </div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Healthy Weight Range</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">For your height:</span>
+                            <span class="breakdown-value" id="healthyRange">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Difference from ideal:</span>
+                            <span class="breakdown-value" id="weightDiff">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>BMI Categories (WHO)</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li><strong>Underweight:</strong> BMI less than 18.5</li>
+                            <li><strong>Normal weight:</strong> BMI 18.5 to 24.9</li>
+                            <li><strong>Overweight:</strong> BMI 25 to 29.9</li>
+                            <li><strong>Obese:</strong> BMI 30 or greater</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            <strong>Note:</strong> BMI is a screening tool and does not directly measure body fat. Athletes and very muscular individuals may have a high BMI but low body fat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="bmi-calculator.js"></script>
+</body>
+</html>

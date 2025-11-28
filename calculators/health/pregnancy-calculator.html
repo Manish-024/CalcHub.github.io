@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pregnancy Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-baby"></i><h1>Pregnancy Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate due date and pregnancy milestones based on last menstrual period.</p></div>
+<div class="calculator-form"><form id="pregForm"><div class="form-section"><h3>Last Menstrual Period</h3>
+<div class="form-group"><label>First Day of Last Period</label><input type="date" id="lmp" required></div>
+<div class="form-group"><label>Average Cycle Length (days)</label><input type="number" id="cycle" step="any" value="28" required></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Pregnancy Information</h3>
+<div class="result-breakdown">
+<div class="breakdown-item"><span class="breakdown-label">Due Date:</span><span class="breakdown-value" id="dueDate" style="font-weight:bold;color:#4CAF50;">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Current Week:</span><span class="breakdown-value" id="currentWeek">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Current Trimester:</span><span class="breakdown-value" id="trimester">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Days Pregnant:</span><span class="breakdown-value" id="daysPreg">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Days Remaining:</span><span class="breakdown-value" id="daysRemain">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Conception Date (est.):</span><span class="breakdown-value" id="conception">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">End of 1st Trimester:</span><span class="breakdown-value" id="trim1">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">End of 2nd Trimester:</span><span class="breakdown-value" id="trim2">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('lmp').valueAsDate = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
+document.getElementById('pregForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const lmp = new Date(document.getElementById('lmp').value);
+    const cycle = parseInt(document.getElementById('cycle').value);
+    const today = new Date();
+    
+    const dueDate = new Date(lmp.getTime() + 280 * 24 * 60 * 60 * 1000);
+    const conception = new Date(lmp.getTime() + (cycle - 14) * 24 * 60 * 60 * 1000);
+    const trim1End = new Date(lmp.getTime() + 91 * 24 * 60 * 60 * 1000);
+    const trim2End = new Date(lmp.getTime() + 182 * 24 * 60 * 60 * 1000);
+    
+    const daysPreg = Math.floor((today - lmp) / (24 * 60 * 60 * 1000));
+    const weeksPreg = Math.floor(daysPreg / 7);
+    const daysInWeek = daysPreg % 7;
+    const daysRemain = Math.floor((dueDate - today) / (24 * 60 * 60 * 1000));
+    
+    let trimester = 'First';
+    if (today > trim2End) trimester = 'Third';
+    else if (today > trim1End) trimester = 'Second';
+    
+    const formatDate = (date) => date.toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'});
+    
+    document.getElementById('dueDate').textContent = formatDate(dueDate);
+    document.getElementById('currentWeek').textContent = weeksPreg + ' weeks, ' + daysInWeek + ' days';
+    document.getElementById('trimester').textContent = trimester;
+    document.getElementById('daysPreg').textContent = daysPreg + ' days';
+    document.getElementById('daysRemain').textContent = daysRemain > 0 ? daysRemain + ' days' : 'Past due date';
+    document.getElementById('conception').textContent = formatDate(conception);
+    document.getElementById('trim1').textContent = formatDate(trim1End);
+    document.getElementById('trim2').textContent = formatDate(trim2End);
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

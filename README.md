@@ -320,4 +320,4 @@ If you find CalcHub useful, please consider:
 
 ---
 
-**Made with ❤️ by the CalcHub Team** | [Website](https://calchub.example.com) | [Documentation](https://github.com/Manish-024/CalcHub/wiki)
+**Made with ❤️ by the CalcHub Team** | [Website](https://manish-024.github.io/CalcHub.github.io/) | [Documentation](https://github.com/Manish-024/CalcHub/wiki)
