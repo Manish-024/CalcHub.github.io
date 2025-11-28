@@ -1,0 +1,547 @@
+/* Calculator Page Styles */
+.calculator-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.calculator-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 1.5rem 0;
+    box-shadow: var(--shadow-lg);
+}
+
+.calculator-header .container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.back-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.calculator-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.calculator-title i {
+    font-size: 2rem;
+}
+
+.calculator-title h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+/* Calculator Container */
+.calculator-container {
+    flex: 1;
+    padding: 3rem 0;
+}
+
+.calculator-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.calculator-description {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.calculator-description h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.calculator-description p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Calculator Form */
+.calculator-form {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    max-width: 100%;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.form-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group label .required {
+    color: #ef4444;
+    font-size: 1.1rem;
+}
+
+.form-group label .hint {
+    color: var(--text-secondary);
+    font-weight: 400;
+    font-size: 0.85rem;
+    margin-left: auto;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.875rem 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    min-height: 52px;
+    font-family: inherit;
+    background-color: var(--card-background);
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Make sure regular inputs (not in input-with-unit) are full width */
+.form-group > input,
+.form-group > select {
+    min-width: 100%;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    border-color: #cbd5e1;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    background-color: #ffffff;
+}
+
+.form-group input::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+    font-size: 1rem;
+}
+
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 45px;
+    width: 20px;
+    margin-left: 10px;
+}
+
+/* Better number input appearance */
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: inner-spin-button;
+    cursor: pointer;
+}
+
+/* Input validation states */
+.form-group input:invalid:not(:placeholder-shown) {
+    border-color: #ef4444;
+}
+
+.form-group input:valid:not(:placeholder-shown) {
+    border-color: #10b981;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.input-with-unit {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-with-unit input {
+    flex: 2;
+    min-width: 200px;
+    width: auto;
+}
+
+.input-with-unit select {
+    min-width: 180px;
+    max-width: 220px;
+    flex-shrink: 0;
+    font-weight: 500;
+    font-size: 1.125rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 3rem;
+    appearance: none;
+    cursor: pointer;
+}
+
+.input-with-unit select:hover {
+    background-color: var(--background);
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    min-height: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--background);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+/* Results */
+.result-container {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow);
+    display: none;
+}
+
+.result-container.show {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-container h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.result-item {
+    padding: 1rem;
+    background: var(--background);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+
+.result-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.result-breakdown {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.result-breakdown h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.breakdown-item:last-child {
+    border-bottom: none;
+}
+
+.breakdown-label {
+    color: var(--text-secondary);
+}
+
+.breakdown-value {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Checkbox styling */
+.form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    min-height: auto;
+    accent-color: var(--primary-color);
+}
+
+.form-group label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
+}
+
+/* Input icons */
+.input-group {
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.input-group input {
+    padding-left: 2.75rem;
+}
+
+/* Info Box */
+.info-box {
+    background: #eff6ff;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.info-box p {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Input focus animation */
+@keyframes inputFocus {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+    100% {
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+}
+
+.form-group input:focus {
+    animation: inputFocus 0.3s ease;
+}
+
+/* Loading state for inputs */
+.form-group input:disabled,
+.form-group select:disabled {
+    background-color: #f1f5f9;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Number input better styling */
+.form-group input[type="number"] {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Date and time input improvements */
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator,
+.form-group input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: opacity(0.6);
+    transition: filter 0.3s;
+}
+
+.form-group input[type="date"]:hover::-webkit-calendar-picker-indicator,
+.form-group input[type="time"]:hover::-webkit-calendar-picker-indicator {
+    filter: opacity(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calculator-title h1 {
+        font-size: 1.25rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .form-group label .hint {
+        display: none;
+    }
+
+    .input-with-unit {
+        gap: 0.5rem;
+    }
+
+    .input-with-unit {
+        gap: 0.75rem;
+    }
+
+    .input-with-unit input {
+        min-width: 150px;
+    }
+
+    .input-with-unit select {
+        min-width: 120px;
+        max-width: 140px;
+        font-size: 1rem;
+        padding-right: 2.5rem;
+    }
+
+    .calculator-form {
+        padding: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 1.125rem;
+        padding: 0.875rem 1rem;
+    }
+}
+
+/* Large screens - even bigger inputs */
+@media (min-width: 1200px) {
+    .form-group input,
+    .form-group select {
+        font-size: 1.25rem;
+        padding: 1.125rem 1.5rem;
+        min-height: 56px;
+    }
+
+    .btn {
+        font-size: 1.25rem;
+        padding: 1.125rem 2.25rem;
+        min-height: 56px;
+    }
+}

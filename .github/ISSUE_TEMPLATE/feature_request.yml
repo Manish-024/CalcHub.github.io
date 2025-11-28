@@ -1,0 +1,119 @@
+name: Feature Request
+description: Suggest a new calculator or feature
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! We'd love to hear your ideas.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request Type
+      options:
+        - New Calculator
+        - Feature Enhancement
+        - UI/UX Improvement
+        - Performance Improvement
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: calculator-name
+    attributes:
+      label: Calculator/Feature Name
+      description: What would you like to call this?
+      placeholder: e.g., Investment ROI Calculator
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category (for new calculators)
+      description: Which category should this belong to?
+      options:
+        - Basic
+        - Finance
+        - Health
+        - Sports
+        - Statistics
+        - Math
+        - Education
+        - Construction
+        - Science
+        - Internet Speed
+        - Time
+        - Food
+        - Everyday
+        - New Category
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the feature or calculator
+      placeholder: This calculator would help users calculate...
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Why would this feature be useful? Who would use it?
+      placeholder: This would be useful for people who...
+    validations:
+      required: true
+
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs (for new calculators)
+      description: What inputs would be needed?
+      placeholder: |
+        - Principal amount (₹)
+        - Interest rate (%)
+        - Time period (years)
+
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Expected Outputs (for new calculators)
+      description: What should the calculator display?
+      placeholder: |
+        - Total return (₹)
+        - Profit/Loss (₹)
+        - ROI percentage (%)
+
+  - type: textarea
+    id: formulas
+    attributes:
+      label: Formulas/Logic (if applicable)
+      description: Any specific formulas or calculation logic?
+      placeholder: ROI = (Final Value - Initial Value) / Initial Value × 100
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Links to similar calculators or examples
+      placeholder: https://example.com/similar-calculator
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      description: Would you like to contribute to this feature?
+      options:
+        - label: I would like to work on this feature
+        - label: I can provide design mockups
+        - label: I can help with testing
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information or context

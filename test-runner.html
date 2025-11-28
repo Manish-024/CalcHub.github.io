@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcHub - Calculator Test Runner</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .test-section {
+            margin-bottom: 3rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        .calculator-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .calc-test-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 1rem;
+            background: #f9f9f9;
+            transition: all 0.3s;
+        }
+        .calc-test-item:hover {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .calc-test-item h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+        .test-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .status-pending { background: #e0e0e0; color: #666; }
+        .status-testing { background: #fff3cd; color: #856404; }
+        .status-passed { background: #d4edda; color: #155724; }
+        .status-failed { background: #f8d7da; color: #721c24; }
+        .test-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            transition: background 0.3s;
+        }
+        .test-btn:hover {
+            background: #2980b9;
+        }
+        .summary {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .summary-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            font-size: 1.2rem;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .refactor-status {
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            color: #666;
+        }
+        .refactor-yes { color: #28a745; }
+        .refactor-no { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-vial"></i>
+                <h1>CalcHub Test Runner</h1>
+            </div>
+            <p class="tagline">Systematic Testing & Validation</p>
+        </div>
+    </header>
+
+    <main class="test-container">
+        <div class="summary">
+            <h2>Test Summary</h2>
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCalcs">40</div>
+                    <div>Total Calculators</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="refactoredCount">1</div>
+                    <div>Refactored (Separate JS)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="metricCount">1</div>
+                    <div>Metric/India Units</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="testedCount">0</div>
+                    <div>Tested</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Calculators -->
+        <div class="test-section">
+            <h2><i class="fas fa-calculator"></i> Basic Calculators (4)</h2>
+            <div class="calculator-list">
+                <div class="calc-test-item">
+                    <h3>Basic Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/basic/basic-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Scientific Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/basic/scientific-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Unit Converter</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/basic/unit-converter.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Currency Converter</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-yes">✅ Refactored + INR Default</div>
+                    <a href="calculators/basic/currency-converter.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Calculators -->
+        <div class="test-section">
+            <h2><i class="fas fa-heartbeat"></i> Health Calculators (5)</h2>
+            <div class="calculator-list">
+                <div class="calc-test-item">
+                    <h3>BMI Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Missing JS File</div>
+                    <a href="calculators/health/bmi-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>BMR & TDEE Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/health/bmr-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Body Fat Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/health/body-fat-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Water Intake Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/health/water-intake-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Pregnancy Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/health/pregnancy-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Finance Calculators -->
+        <div class="test-section">
+            <h2><i class="fas fa-coins"></i> Finance Calculators (5)</h2>
+            <div class="calculator-list">
+                <div class="calc-test-item">
+                    <h3>Loan Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/finance/loan-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Mortgage Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/finance/mortgage-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Compound Interest</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/finance/compound-interest.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Salary Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/finance/salary-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+                <div class="calc-test-item">
+                    <h3>Tip Calculator</h3>
+                    <span class="test-status status-pending">Pending</span>
+                    <div class="refactor-status refactor-no">❌ Not Refactored</div>
+                    <a href="calculators/finance/tip-calculator.html" target="_blank" class="test-btn">Test →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- More sections would continue... -->
+        <div class="test-section" style="background: #fff3cd; padding: 1.5rem; border-radius: 8px;">
+            <h2>⚠️ Refactoring Status</h2>
+            <p><strong>Progress: 1/40 calculators refactored</strong></p>
+            <p>This is a large refactoring task. Would you like me to:</p>
+            <ol>
+                <li><strong>Complete refactoring systematically</strong> - Extract all JS, convert to metric/INR (takes time)</li>
+                <li><strong>Prioritize specific categories</strong> - Which calculators are most important?</li>
+                <li><strong>Create automation script</strong> - Build a script to batch convert all files</li>
+            </ol>
+            <p><em>Each calculator needs: JS extraction + metric unit conversion + INR currency default + testing</em></p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub - Test Runner</p>
+        </div>
+    </footer>
+</body>
+</html>

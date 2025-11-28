@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Grade Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-graduation-cap"></i><h1>Grade Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate final grades based on weighted assignments, tests, and exams.</p></div>
+<div class="calculator-form"><form id="gradeForm"><div class="form-section"><h3>Grade Components</h3>
+<div id="components">
+<div class="comp-row" style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:1rem;margin-bottom:1rem;">
+<input type="text" class="comp-name" placeholder="Component Name" value="Assignments" style="padding:0.75rem;">
+<input type="number" class="comp-weight" min="0" max="100" step="any" value="30" placeholder="Weight%" style="padding:0.75rem;">
+<input type="number" class="comp-score" min="0" max="100" step="any" value="85" placeholder="Score%" style="padding:0.75rem;">
+</div></div>
+<button type="button" onclick="addComponent()" class="btn btn-secondary"><i class="fas fa-plus"></i> Add Component</button>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Final Grade</h3>
+<div class="result-item"><div class="result-value" id="finalGrade">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">Letter Grade:</span><span class="breakdown-value" id="letterGrade">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Total Weight:</span><span class="breakdown-value" id="totalWeight">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+function addComponent() {
+    const div = document.createElement('div');
+    div.className = 'comp-row';
+    div.style.cssText = 'display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:1rem;margin-bottom:1rem;';
+    div.innerHTML = '<input type="text" class="comp-name" placeholder="Component" style="padding:0.75rem;"><input type="number" class="comp-weight" min="0" max="100" step="any" placeholder="Weight%" style="padding:0.75rem;"><input type="number" class="comp-score" min="0" max="100" step="any" placeholder="Score%" style="padding:0.75rem;"><button type="button" onclick="this.parentElement.remove()" class="btn btn-secondary" style="padding:0.75rem;"><i class="fas fa-trash"></i></button>';
+    document.getElementById('components').appendChild(div);
+}
+document.getElementById('gradeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const rows = document.querySelectorAll('.comp-row');
+    let totalScore = 0, totalWeight = 0;
+    rows.forEach(row => {
+        const weight = parseFloat(row.querySelector('.comp-weight').value) || 0;
+        const score = parseFloat(row.querySelector('.comp-score').value) || 0;
+        totalScore += (weight * score);
+        totalWeight += weight;
+    });
+    const finalGrade = totalWeight > 0 ? totalScore / totalWeight : 0;
+    let letter = 'F';
+    if (finalGrade >= 93) letter = 'A';
+    else if (finalGrade >= 90) letter = 'A-';
+    else if (finalGrade >= 87) letter = 'B+';
+    else if (finalGrade >= 83) letter = 'B';
+    else if (finalGrade >= 80) letter = 'B-';
+    else if (finalGrade >= 77) letter = 'C+';
+    else if (finalGrade >= 73) letter = 'C';
+    else if (finalGrade >= 70) letter = 'C-';
+    else if (finalGrade >= 67) letter = 'D+';
+    else if (finalGrade >= 65) letter = 'D';
+    
+    document.getElementById('finalGrade').textContent = finalGrade.toFixed(2) + '%';
+    document.getElementById('letterGrade').textContent = letter;
+    document.getElementById('totalWeight').textContent = totalWeight.toFixed(1) + '%';
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

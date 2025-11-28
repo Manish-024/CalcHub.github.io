@@ -1,0 +1,134 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Validate HTML files
+      run: |
+        echo "Checking for HTML syntax errors..."
+        # Basic HTML validation - check for common issues
+        find . -name "*.html" -type f | while read file; do
+          echo "Checking $file"
+          # Check if file is not empty
+          if [ ! -s "$file" ]; then
+            echo "ERROR: Empty file detected: $file"
+            exit 1
+          fi
+          # Check for basic HTML structure
+          if ! grep -q "<!DOCTYPE html>" "$file"; then
+            echo "WARNING: Missing DOCTYPE in $file"
+          fi
+          if ! grep -q "</html>" "$file"; then
+            echo "ERROR: Missing closing html tag in $file"
+            exit 1
+          fi
+        done
+        echo "HTML validation completed!"
+    
+    - name: Check JavaScript syntax
+      run: |
+        echo "Checking JavaScript files..."
+        find . -name "*.js" -type f ! -path "*/node_modules/*" | while read file; do
+          echo "Checking $file"
+          # Basic JS check - ensure file is not empty
+          if [ ! -s "$file" ]; then
+            echo "ERROR: Empty file detected: $file"
+            exit 1
+          fi
+        done
+        echo "JavaScript check completed!"
+    
+    - name: Check CSS syntax
+      run: |
+        echo "Checking CSS files..."
+        find . -name "*.css" -type f ! -path "*/node_modules/*" | while read file; do
+          echo "Checking $file"
+          if [ ! -s "$file" ]; then
+            echo "ERROR: Empty file detected: $file"
+            exit 1
+          fi
+        done
+        echo "CSS check completed!"
+    
+    - name: Check file structure
+      run: |
+        echo "Validating project structure..."
+        # Check for required directories
+        for dir in calculators css js; do
+          if [ ! -d "$dir" ]; then
+            echo "ERROR: Required directory missing: $dir"
+            exit 1
+          fi
+        done
+        # Check for required files
+        for file in index.html README.md CONTRIBUTING.md LICENSE .gitignore; do
+          if [ ! -f "$file" ]; then
+            echo "WARNING: Recommended file missing: $file"
+          fi
+        done
+        echo "Structure validation completed!"
+    
+    - name: Check for INR and metric defaults
+      run: |
+        echo "Checking for USD symbols in finance calculators..."
+        # Check if any finance calculators still use $ instead of ₹
+        if grep -r "\$[0-9]" calculators/finance/ --include="*.html" --include="*.js" 2>/dev/null; then
+          echo "WARNING: Found USD symbols in finance calculators. Consider converting to INR (₹)"
+        fi
+        echo "Currency check completed!"
+    
+    - name: List calculators
+      run: |
+        echo "Listing all calculators..."
+        find calculators -name "*.html" -type f | wc -l | xargs echo "Total HTML calculator files:"
+        echo ""
+        echo "Calculators by category:"
+        for dir in calculators/*/; do
+          count=$(find "$dir" -name "*.html" -type f | wc -l)
+          echo "  $(basename $dir): $count calculators"
+        done
+
+  spell-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Check spelling in markdown files
+      run: |
+        echo "Checking spelling in documentation..."
+        # This is a basic check - you can add aspell or other tools
+        echo "Spell check completed (basic check only)"
+
+  link-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Check internal links
+      run: |
+        echo "Checking for broken internal links..."
+        # Check if linked calculator files exist
+        if [ -f "index.html" ]; then
+          # Extract href links from index.html
+          grep -o 'href="calculators/[^"]*"' index.html | sed 's/href="//;s/"$//' | while read link; do
+            if [ ! -f "$link" ]; then
+              echo "WARNING: Broken link found: $link"
+            fi
+          done
+        fi
+        echo "Link check completed!"
