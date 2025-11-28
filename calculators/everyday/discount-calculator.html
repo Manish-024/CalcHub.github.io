@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-tag"></i>
+                <h1>Discount Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate discounts and final prices. Perfect for shopping, sales, and understanding savings.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="discountForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-rupee-sign"></i> Price Details</h3>
+                            
+                            <div class="form-group">
+                                <label for="originalPrice">Original Price (₹) <span class="required">*</span></label>
+                                <input type="number" id="originalPrice" min="0" step="any" value="1000" required placeholder="e.g., 1000">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discountPercent">Discount (%) <span class="required">*</span></label>
+                                <input type="number" id="discountPercent" min="0" max="100" step="any" value="20" required placeholder="e.g., 20">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taxPercent">Tax (%)</label>
+                                <input type="number" id="taxPercent" min="0" step="any" value="0" placeholder="e.g., 8.5">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Price
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-receipt"></i> Price Breakdown</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Final Price</div>
+                        <div class="result-value" id="finalPrice" style="color: var(--primary-color);">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Calculation Details</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Original Price:</span>
+                            <span class="breakdown-value" id="origPrice">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Discount Amount:</span>
+                            <span class="breakdown-value" id="discountAmount" style="color: #2ecc71;">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Price After Discount:</span>
+                            <span class="breakdown-value" id="priceAfterDiscount">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Tax Amount:</span>
+                            <span class="breakdown-value" id="taxAmount">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">You Save:</span>
+                            <span class="breakdown-value" id="savings" style="color: #2ecc71; font-weight: bold;">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('discountForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const originalPrice = parseFloat(document.getElementById('originalPrice').value);
+                const discountPercent = parseFloat(document.getElementById('discountPercent').value);
+                const taxPercent = parseFloat(document.getElementById('taxPercent').value) || 0;
+
+                const discountAmount = originalPrice * (discountPercent / 100);
+                const priceAfterDiscount = originalPrice - discountAmount;
+                const taxAmount = priceAfterDiscount * (taxPercent / 100);
+                const finalPrice = priceAfterDiscount + taxAmount;
+                const savings = discountAmount;
+
+                document.getElementById('finalPrice').textContent = '₹' + finalPrice.toFixed(2);
+                document.getElementById('origPrice').textContent = '₹' + originalPrice.toFixed(2);
+                document.getElementById('discountAmount').textContent = '-₹' + discountAmount.toFixed(2) + ' (' + discountPercent + '%)';
+                document.getElementById('priceAfterDiscount').textContent = '₹' + priceAfterDiscount.toFixed(2);
+                document.getElementById('taxAmount').textContent = '+₹' + taxAmount.toFixed(2) + ' (' + taxPercent + '%)';
+                document.getElementById('savings').textContent = '₹' + savings.toFixed(2);
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

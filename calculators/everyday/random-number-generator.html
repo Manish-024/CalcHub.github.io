@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Random Number Generator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-dice"></i><h1>Random Number Generator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Generate random numbers within a specified range.</p></div>
+<div class="calculator-form"><form id="randomForm"><div class="form-section"><h3>Settings</h3>
+<div class="form-group"><label>Minimum Value</label><input type="number" id="min" step="any" value="1" required></div>
+<div class="form-group"><label>Maximum Value</label><input type="number" id="max" step="any" value="100" required></div>
+<div class="form-group"><label>How Many Numbers?</label><input type="number" id="count" step="1" min="1" max="1000" value="1" required></div>
+<div class="form-group"><label><input type="checkbox" id="unique" style="width:auto;margin-right:0.5rem;"> Unique Numbers (no duplicates)</label></div>
+<div class="form-group"><label><input type="checkbox" id="sorted" style="width:auto;margin-right:0.5rem;"> Sort Results</label></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-dice"></i> Generate</button></div></form></div>
+<div id="result" class="result-container"><h3>Generated Numbers</h3>
+<div class="result-item"><div class="result-value" id="numbers" style="font-size:1.5rem;line-height:1.8;">--</div></div>
+</div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('randomForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const min = parseFloat(document.getElementById('min').value);
+    const max = parseFloat(document.getElementById('max').value);
+    const count = parseInt(document.getElementById('count').value);
+    const unique = document.getElementById('unique').checked;
+    const sorted = document.getElementById('sorted').checked;
+    
+    if (min >= max) {
+        alert('Maximum must be greater than minimum');
+        return;
+    }
+    
+    if (unique && count > (max - min + 1)) {
+        alert('Cannot generate ' + count + ' unique numbers in range ' + min + '-' + max);
+        return;
+    }
+    
+    let numbers = [];
+    if (unique) {
+        const available = [];
+        for (let i = min; i <= max; i++) available.push(i);
+        for (let i = 0; i < count; i++) {
+            const idx = Math.floor(Math.random() * available.length);
+            numbers.push(available.splice(idx, 1)[0]);
+        }
+    } else {
+        for (let i = 0; i < count; i++) {
+            numbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+        }
+    }
+    
+    if (sorted) numbers.sort((a, b) => a - b);
+    
+    document.getElementById('numbers').textContent = numbers.join(', ');
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>
