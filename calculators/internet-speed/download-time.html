@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Time Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-download"></i>
+                <h1>Download Time Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate how long it will take to download a file based on your internet connection speed. Enter the file size and your download speed to get accurate time estimates.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="downloadForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-file"></i> File Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="fileSize">
+                                    File Size <span class="required">*</span>
+                                    <span class="hint">e.g., 500 MB</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="fileSize" min="0.01" step="any" required placeholder="Enter file size" value="500">
+                                    <select id="fileSizeUnit">
+                                        <option value="KB">KB (Kilobytes)</option>
+                                        <option value="MB" selected>MB (Megabytes)</option>
+                                        <option value="GB">GB (Gigabytes)</option>
+                                        <option value="TB">TB (Terabytes)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-tachometer-alt"></i> Download Speed</h3>
+                            
+                            <div class="form-group">
+                                <label for="downloadSpeed">
+                                    Download Speed <span class="required">*</span>
+                                    <span class="hint">Check speedtest.net</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="downloadSpeed" min="0.01" step="any" required placeholder="Enter your internet speed" value="50">
+                                    <select id="speedUnit">
+                                        <option value="Kbps">Kbps</option>
+                                        <option value="Mbps" selected>Mbps</option>
+                                        <option value="Gbps">Gbps</option>
+                                        <option value="KBps">KB/s</option>
+                                        <option value="MBps">MB/s</option>
+                                        <option value="GBps">GB/s</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="efficiency">Network Efficiency (%)</label>
+                                <input type="number" id="efficiency" min="1" max="100" step="any" value="80" placeholder="Default: 80%">
+                                <small>Typical: 70-90% (accounts for overhead and network conditions)</small>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-chart-line"></i> Results</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Estimated Download Time</div>
+                        <div class="result-value" id="downloadTime">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Breakdown</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">File Size:</span>
+                            <span class="breakdown-value" id="resultFileSize">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Download Speed:</span>
+                            <span class="breakdown-value" id="resultSpeed">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Effective Speed (with overhead):</span>
+                            <span class="breakdown-value" id="effectiveSpeed">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Time in Seconds:</span>
+                            <span class="breakdown-value" id="timeSeconds">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <p><strong>Note:</strong> Actual download times may vary based on network conditions, server speed, and other factors. This calculator provides theoretical estimates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="download-time.js"></script>
+</body>
+</html>

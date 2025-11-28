@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Converter - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-exchange-alt"></i>
+                <h1>Internet Speed Converter</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Convert between different internet speed units including Mbps, MB/s, Gbps, Kbps, and more. Understand the relationship between bits and bytes.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="speedForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-tachometer-alt"></i> Speed Conversion</h3>
+                            
+                            <div class="form-group">
+                                <label for="speedValue">
+                                    Speed Value <span class="required">*</span>
+                                    <span class="hint">Enter any value</span>
+                                </label>
+                                <input type="number" id="speedValue" min="0.001" step="any" value="100" required placeholder="e.g., 100">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fromUnit">From Unit <span class="required">*</span></label>
+                                <select id="fromUnit">
+                                    <optgroup label="Bits per second (Network Speed)">
+                                        <option value="bps">bps (bits per second)</option>
+                                        <option value="Kbps">Kbps (Kilobits per second)</option>
+                                        <option value="Mbps" selected>Mbps (Megabits per second)</option>
+                                        <option value="Gbps">Gbps (Gigabits per second)</option>
+                                        <option value="Tbps">Tbps (Terabits per second)</option>
+                                    </optgroup>
+                                    <optgroup label="Bytes per second (File Transfer)">
+                                        <option value="Bps">B/s (Bytes per second)</option>
+                                        <option value="KBps">KB/s (Kilobytes per second)</option>
+                                        <option value="MBps">MB/s (Megabytes per second)</option>
+                                        <option value="GBps">GB/s (Gigabytes per second)</option>
+                                        <option value="TBps">TB/s (Terabytes per second)</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-exchange-alt"></i> Convert
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-list"></i> Conversion Results</h3>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Bits per second (for line speed)</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">bits per second (bps):</span>
+                            <span class="breakdown-value" id="bps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Kilobits per second (Kbps):</span>
+                            <span class="breakdown-value" id="Kbps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Megabits per second (Mbps):</span>
+                            <span class="breakdown-value" id="Mbps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Gigabits per second (Gbps):</span>
+                            <span class="breakdown-value" id="Gbps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Terabits per second (Tbps):</span>
+                            <span class="breakdown-value" id="Tbps">--</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--secondary-color); margin-bottom: 1rem;">Bytes per second (for file transfer)</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Bytes per second (B/s):</span>
+                            <span class="breakdown-value" id="Bps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Kilobytes per second (KB/s):</span>
+                            <span class="breakdown-value" id="KBps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Megabytes per second (MB/s):</span>
+                            <span class="breakdown-value" id="MBps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Gigabytes per second (GB/s):</span>
+                            <span class="breakdown-value" id="GBps">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Terabytes per second (TB/s):</span>
+                            <span class="breakdown-value" id="TBps">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <p><strong>Remember:</strong> 1 byte = 8 bits. Internet speeds are typically advertised in Mbps (megabits), while file downloads show MB/s (megabytes). Divide Mbps by 8 to get MB/s.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="speed-converter.js"></script>
+</body>
+</html>

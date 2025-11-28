@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandwidth Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-network-wired"></i>
+                <h1>Bandwidth Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate the total bandwidth required for multiple users and devices, or determine how many users can be supported by your current bandwidth.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="bandwidthForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-users"></i> Usage Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="numUsers">
+                                    Number of Users/Devices <span class="required">*</span>
+                                </label>
+                                <input type="number" id="numUsers" min="1" step="any" value="10" required placeholder="e.g., 10">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="perUserBandwidth">
+                                    Bandwidth per User <span class="required">*</span>
+                                    <span class="hint">Average per person</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="perUserBandwidth" min="0.1" step="any" value="5" required placeholder="e.g., 5">
+                                    <select id="bandwidthUnit">
+                                        <option value="Kbps">Kbps</option>
+                                        <option value="Mbps" selected>Mbps</option>
+                                        <option value="Gbps">Gbps</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="simultaneousUsage">Simultaneous Usage (%)</label>
+                                <input type="number" id="simultaneousUsage" min="1" max="100" step="any" value="70" required placeholder="Default: 70%">
+                                <small>Percentage of users active at the same time</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="overhead">Network Overhead (%)</label>
+                                <input type="number" id="overhead" min="0" max="50" step="any" value="20" required placeholder="Default: 20%">
+                                <small>Additional capacity for protocol overhead and bursts</small>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-chart-line"></i> Bandwidth Requirements</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Total Required Bandwidth</div>
+                        <div class="result-value" id="totalBandwidth">--</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Peak Bandwidth (100% usage)</div>
+                        <div class="result-value" id="peakBandwidth" style="font-size: 1.2rem;">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Calculation Breakdown</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Number of Users:</span>
+                            <span class="breakdown-value" id="resultUsers">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Per User Bandwidth:</span>
+                            <span class="breakdown-value" id="resultPerUser">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Simultaneous Users:</span>
+                            <span class="breakdown-value" id="simultaneousUsers">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Base Bandwidth Needed:</span>
+                            <span class="breakdown-value" id="baseBandwidth">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Overhead Addition:</span>
+                            <span class="breakdown-value" id="overheadAmount">--</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <p><strong>Tip:</strong> Consider peak usage times and plan for 20-30% growth when selecting an internet plan for your organization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="bandwidth.js"></script>
+</body>
+</html>

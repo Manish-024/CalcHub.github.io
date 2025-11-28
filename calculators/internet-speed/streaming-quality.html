@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Quality Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-video"></i>
+                <h1>Streaming Quality Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Check if your internet speed is sufficient for various streaming qualities and determine how many simultaneous streams your connection can handle.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="streamingForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-wifi"></i> Your Internet Speed</h3>
+                            
+                            <div class="form-group">
+                                <label for="internetSpeed">
+                                    Download Speed <span class="required">*</span>
+                                    <span class="hint">Test at speedtest.net</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="internetSpeed" min="0.1" step="any" value="50" required placeholder="e.g., 50">
+                                    <select id="speedUnit">
+                                        <option value="Kbps">Kbps</option>
+                                        <option value="Mbps" selected>Mbps</option>
+                                        <option value="Gbps">Gbps</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numDevices">
+                                    Number of Streaming Devices <span class="required">*</span>
+                                </label>
+                                <input type="number" id="numDevices" min="1" step="any" value="1" required placeholder="e.g., 2">
+                                <small>How many devices will stream simultaneously?</small>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Check Capability
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-tv"></i> Streaming Capability</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Your Internet Speed</div>
+                        <div class="result-value" id="yourSpeed">--</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Speed per Device</div>
+                        <div class="result-value" id="speedPerDevice" style="font-size: 1.2rem;">--</div>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="margin-bottom: 1rem;">Streaming Quality Support</h4>
+                        <div id="streamingQualities"></div>
+                    </div>
+
+                    <div class="info-box">
+                        <p><strong>Note:</strong> These are recommended minimum speeds. For best experience and to account for other internet usage, aim for higher speeds. Multiple devices streaming simultaneously will require proportionally more bandwidth.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="streaming-quality.js"></script>
+</body>
+</html>
