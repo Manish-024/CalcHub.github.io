@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duration Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-hourglass-half"></i>
+                <h1>Duration Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate the exact duration between two dates and times. Get results in years, months, weeks, days, hours, minutes, and seconds.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="durationForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-calendar-day"></i> Start Date & Time</h3>
+                            
+                            <div class="form-group">
+                                <label for="startDate">
+                                    Start Date <span class="required">*</span>
+                                </label>
+                                <input type="date" id="startDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="startTime">
+                                    Start Time <span class="required">*</span>
+                                </label>
+                                <input type="time" id="startTime" required>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-calendar-check"></i> End Date & Time</h3>
+                            
+                            <div class="form-group">
+                                <label for="endDate">
+                                    End Date <span class="required">*</span>
+                                </label>
+                                <input type="date" id="endDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="endTime">
+                                    End Time <span class="required">*</span>
+                                </label>
+                                <input type="time" id="endTime" required>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Duration
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-clock"></i> Duration Results</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Total Duration</div>
+                        <div class="result-value" id="totalDuration">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Detailed Breakdown</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Years:</span>
+                            <span class="breakdown-value" id="years">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Months:</span>
+                            <span class="breakdown-value" id="months">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Weeks:</span>
+                            <span class="breakdown-value" id="weeks">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Days:</span>
+                            <span class="breakdown-value" id="days">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Hours:</span>
+                            <span class="breakdown-value" id="hours">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Minutes:</span>
+                            <span class="breakdown-value" id="minutes">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Seconds:</span>
+                            <span class="breakdown-value" id="seconds">--</span>
+                        </div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Alternative Representations</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total Days:</span>
+                            <span class="breakdown-value" id="totalDays">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total Hours:</span>
+                            <span class="breakdown-value" id="totalHours">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total Minutes:</span>
+                            <span class="breakdown-value" id="totalMinutes">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total Seconds:</span>
+                            <span class="breakdown-value" id="totalSeconds">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="duration-calculator.js"></script>
+</body>
+</html>

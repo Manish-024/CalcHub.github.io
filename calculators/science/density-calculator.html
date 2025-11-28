@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Density Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-flask"></i><h1>Density Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate density using mass and volume (ρ = m/V).</p></div>
+<div class="calculator-form"><form id="densityForm"><div class="form-section"><h3>Calculate</h3>
+<div class="form-group"><label>Calculate</label><select id="calcType"><option value="density">Density</option><option value="mass">Mass</option><option value="volume">Volume</option></select></div>
+<div class="form-group" id="massGroup"><label>Mass</label><div style="display:flex;gap:0.5rem;"><input type="number" id="mass" step="any" style="flex:2;"><select id="massUnit" style="flex:1;"><option value="kg">kg</option><option value="g">g</option><option value="mg">mg</option><option value="lb">lb</option></select></div></div>
+<div class="form-group" id="volumeGroup"><label>Volume</label><div style="display:flex;gap:0.5rem;"><input type="number" id="volume" step="any" style="flex:2;"><select id="volumeUnit" style="flex:1;"><option value="m3">m³</option><option value="cm3">cm³</option><option value="L">L</option><option value="mL">mL</option><option value="ft3">ft³</option></select></div></div>
+<div class="form-group" id="densityGroup" style="display:none;"><label>Density</label><div style="display:flex;gap:0.5rem;"><input type="number" id="density" step="any" style="flex:2;"><select id="densityUnit" style="flex:1;"><option value="kg/m3">kg/m³</option><option value="g/cm3">g/cm³</option><option value="lb/ft3">lb/ft³</option></select></div></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Result</h3>
+<div class="result-item"><div class="result-value" id="resultValue">--</div></div>
+</div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+const conversions = {
+    mass: {kg: 1, g: 1000, mg: 1e6, lb: 2.20462},
+    volume: {m3: 1, cm3: 1e6, L: 1000, mL: 1e6, ft3: 35.3147},
+    density: {'kg/m3': 1, 'g/cm3': 0.001, 'lb/ft3': 16.0185}
+};
+document.getElementById('calcType').addEventListener('change', function() {
+    const type = this.value;
+    document.getElementById('massGroup').style.display = type !== 'mass' ? 'block' : 'none';
+    document.getElementById('volumeGroup').style.display = type !== 'volume' ? 'block' : 'none';
+    document.getElementById('densityGroup').style.display = type !== 'density' ? 'block' : 'none';
+});
+document.getElementById('densityForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const calcType = document.getElementById('calcType').value;
+    let result;
+    if (calcType === 'density') {
+        const mass = parseFloat(document.getElementById('mass').value) / conversions.mass[document.getElementById('massUnit').value];
+        const volume = parseFloat(document.getElementById('volume').value) / conversions.volume[document.getElementById('volumeUnit').value];
+        result = mass / volume;
+        document.getElementById('resultValue').textContent = result.toFixed(4) + ' kg/m³';
+    } else if (calcType === 'mass') {
+        const density = parseFloat(document.getElementById('density').value) / conversions.density[document.getElementById('densityUnit').value];
+        const volume = parseFloat(document.getElementById('volume').value) / conversions.volume[document.getElementById('volumeUnit').value];
+        result = density * volume;
+        document.getElementById('resultValue').textContent = result.toFixed(4) + ' kg';
+    } else {
+        const density = parseFloat(document.getElementById('density').value) / conversions.density[document.getElementById('densityUnit').value];
+        const mass = parseFloat(document.getElementById('mass').value) / conversions.mass[document.getElementById('massUnit').value];
+        result = mass / density;
+        document.getElementById('resultValue').textContent = result.toFixed(4) + ' m³';
+    }
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

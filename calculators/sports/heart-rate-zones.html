@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Heart Rate Zones Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-heartbeat"></i><h1>Heart Rate Zones</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate your target heart rate zones for optimal training.</p></div>
+<div class="calculator-form"><form id="hrForm"><div class="form-section"><h3>Your Information</h3>
+<div class="form-group"><label>Age (years)</label><input type="number" id="age" step="any" value="30" required></div>
+<div class="form-group"><label>Resting Heart Rate (bpm)</label><input type="number" id="resting" step="any" value="60" required></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Your Heart Rate Zones</h3>
+<div class="result-breakdown">
+<div class="breakdown-item" style="padding:1rem;background:#f0f0f0;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Zone 1 - Warm Up (50-60%):</span><span class="breakdown-value" id="zone1" style="font-weight:bold;">--</span></div>
+<div class="breakdown-item" style="padding:1rem;background:#d4edda;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Zone 2 - Fat Burn (60-70%):</span><span class="breakdown-value" id="zone2" style="font-weight:bold;">--</span></div>
+<div class="breakdown-item" style="padding:1rem;background:#fff3cd;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Zone 3 - Aerobic (70-80%):</span><span class="breakdown-value" id="zone3" style="font-weight:bold;">--</span></div>
+<div class="breakdown-item" style="padding:1rem;background:#f8d7da;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Zone 4 - Anaerobic (80-90%):</span><span class="breakdown-value" id="zone4" style="font-weight:bold;">--</span></div>
+<div class="breakdown-item" style="padding:1rem;background:#f5c6cb;border-radius:8px;"><span class="breakdown-label" style="font-weight:bold;">Zone 5 - Maximum (90-100%):</span><span class="breakdown-value" id="zone5" style="font-weight:bold;">--</span></div>
+</div>
+<div style="margin-top:1rem;padding:1rem;background:#e7f3ff;border-radius:8px;"><strong>Max Heart Rate:</strong> <span id="maxHR">--</span> bpm</div>
+</div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('hrForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const age = parseFloat(document.getElementById('age').value);
+    const resting = parseFloat(document.getElementById('resting').value);
+    
+    const maxHR = 220 - age;
+    const reserve = maxHR - resting;
+    
+    const zone1Low = Math.round(resting + reserve * 0.5);
+    const zone1High = Math.round(resting + reserve * 0.6);
+    const zone2Low = zone1High;
+    const zone2High = Math.round(resting + reserve * 0.7);
+    const zone3Low = zone2High;
+    const zone3High = Math.round(resting + reserve * 0.8);
+    const zone4Low = zone3High;
+    const zone4High = Math.round(resting + reserve * 0.9);
+    const zone5Low = zone4High;
+    const zone5High = maxHR;
+    
+    document.getElementById('zone1').textContent = zone1Low + '-' + zone1High + ' bpm';
+    document.getElementById('zone2').textContent = zone2Low + '-' + zone2High + ' bpm';
+    document.getElementById('zone3').textContent = zone3Low + '-' + zone3High + ' bpm';
+    document.getElementById('zone4').textContent = zone4Low + '-' + zone4High + ' bpm';
+    document.getElementById('zone5').textContent = zone5Low + '-' + zone5High + ' bpm';
+    document.getElementById('maxHR').textContent = maxHR;
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

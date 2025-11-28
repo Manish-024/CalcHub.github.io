@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>1RM Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-dumbbell"></i><h1>1RM Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate your one-rep max (1RM) for strength training exercises.</p></div>
+<div class="calculator-form"><form id="rmForm"><div class="form-section"><h3>Your Lift</h3>
+<div class="form-group"><label>Weight Lifted (kg)</label><input type="number" id="weight" step="any" value="102" required></div>
+<div class="form-group"><label>Number of Reps</label><input type="number" id="reps" step="1" min="1" max="15" value="5" required></div>
+<div class="form-group"><label>Formula</label><select id="formula"><option value="epley">Epley Formula</option><option value="brzycki">Brzycki Formula</option><option value="lombardi">Lombardi Formula</option></select></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Your 1RM</h3>
+<div class="result-item"><div class="result-value" id="oneRM" style="font-size:3rem;color:#4CAF50;">--</div></div>
+<h4 style="margin-top:2rem;">Training Percentages</h4>
+<div class="result-breakdown" style="margin-top:1rem;">
+<div class="breakdown-item"><span class="breakdown-label">95% (1-2 reps):</span><span class="breakdown-value" id="pct95">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">90% (2-4 reps):</span><span class="breakdown-value" id="pct90">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">85% (4-6 reps):</span><span class="breakdown-value" id="pct85">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">80% (6-8 reps):</span><span class="breakdown-value" id="pct80">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">75% (8-10 reps):</span><span class="breakdown-value" id="pct75">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">70% (10-12 reps):</span><span class="breakdown-value" id="pct70">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('rmForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const weight = parseFloat(document.getElementById('weight').value);
+    const reps = parseInt(document.getElementById('reps').value);
+    const formula = document.getElementById('formula').value;
+    
+    let oneRM;
+    if (formula === 'epley') {
+        oneRM = weight * (1 + reps / 30);
+    } else if (formula === 'brzycki') {
+        oneRM = weight * (36 / (37 - reps));
+    } else {
+        oneRM = weight * Math.pow(reps, 0.1);
+    }
+    
+    // convert input kg -> lbs for calculation, then convert results back to kg for display
+    const weightKg = parseFloat(document.getElementById('weight').value);
+    const weightLbs = weightKg * 2.20462;
+    let oneRMlbs;
+    if (formula === 'epley') {
+        oneRMlbs = weightLbs * (1 + reps / 30);
+    } else if (formula === 'brzycki') {
+        oneRMlbs = weightLbs * (36 / (37 - reps));
+    } else {
+        oneRMlbs = weightLbs * Math.pow(reps, 0.1);
+    }
+    const oneRMkg = Math.round((oneRMlbs / 2.20462));
+    document.getElementById('oneRM').textContent = oneRMkg + ' kg';
+    document.getElementById('pct95').textContent = Math.round(oneRMkg * 0.95) + ' kg';
+    document.getElementById('pct90').textContent = Math.round(oneRMkg * 0.90) + ' kg';
+    document.getElementById('pct85').textContent = Math.round(oneRMkg * 0.85) + ' kg';
+    document.getElementById('pct80').textContent = Math.round(oneRMkg * 0.80) + ' kg';
+    document.getElementById('pct75').textContent = Math.round(oneRMkg * 0.75) + ' kg';
+    document.getElementById('pct70').textContent = Math.round(oneRMkg * 0.70) + ' kg';
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>
