@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h1>Loan Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate monthly payments, total interest, and amortization schedule for loans including mortgages, auto loans, and personal loans.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="loanForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-dollar-sign"></i> Loan Details</h3>
+                            
+                            <div class="form-group">
+                                <label for="principal">Loan Amount <span class="required">*</span></label>
+                                <input type="number" id="principal" min="1" step="any" value="200000" required placeholder="e.g., 200000">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rate">Annual Interest Rate (%) <span class="required">*</span></label>
+                                <input type="number" id="rate" min="0" step="any" value="5" required placeholder="e.g., 5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="years">Loan Term (years) <span class="required">*</span></label>
+                                <input type="number" id="years" min="1" step="any" value="30" required placeholder="e.g., 30">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Payment
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-money-bill-wave"></i> Loan Summary</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Monthly Payment</div>
+                        <div class="result-value" id="monthlyPayment" style="color: var(--primary-color);">--</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <h4>Loan Details</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Loan Amount:</span>
+                            <span class="breakdown-value" id="loanAmount">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total Interest:</span>
+                            <span class="breakdown-value" id="totalInterest">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total Payment:</span>
+                            <span class="breakdown-value" id="totalPayment">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Number of Payments:</span>
+                            <span class="breakdown-value" id="numPayments">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('loanForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const principal = parseFloat(document.getElementById('principal').value);
+                const annualRate = parseFloat(document.getElementById('rate').value);
+                const years = parseFloat(document.getElementById('years').value);
+
+                // Monthly interest rate
+                const monthlyRate = annualRate / 100 / 12;
+                const numPayments = years * 12;
+
+                // Calculate monthly payment using amortization formula
+                const monthlyPayment = principal * 
+                    (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+                    (Math.pow(1 + monthlyRate, numPayments) - 1);
+
+                const totalPayment = monthlyPayment * numPayments;
+                const totalInterest = totalPayment - principal;
+
+                document.getElementById('monthlyPayment').textContent = '₹' + monthlyPayment.toFixed(2);
+                document.getElementById('loanAmount').textContent = '₹' + principal.toLocaleString();
+                document.getElementById('totalInterest').textContent = '₹' + totalInterest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('totalPayment').textContent = '₹' + totalPayment.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('numPayments').textContent = numPayments + ' months';
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

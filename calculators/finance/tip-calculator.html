@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-receipt"></i>
+                <h1>Tip Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate tips and split bills among multiple people. Perfect for restaurants, cafes, and group dining.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="tipForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-receipt"></i> Bill Details</h3>
+                            
+                            <div class="form-group">
+                                <label for="billAmount">Bill Amount <span class="required">*</span></label>
+                                <input type="number" id="billAmount" min="0" step="any" value="100" required placeholder="e.g., 100">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tipPercent">Tip Percentage (%) <span class="required">*</span></label>
+                                <input type="number" id="tipPercent" min="0" step="any" value="15" required placeholder="e.g., 15">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numPeople">Number of People</label>
+                                <input type="number" id="numPeople" min="1" step="any" value="1" placeholder="e.g., 1">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Tip
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-dollar-sign"></i> Payment Summary</h3>
+                    
+                    <div class="result-breakdown">
+                        <h4>Total Amounts</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Original Bill:</span>
+                            <span class="breakdown-value" id="originalBill">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Tip Amount:</span>
+                            <span class="breakdown-value" id="tipAmount">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Total with Tip:</span>
+                            <span class="breakdown-value" id="totalAmount" style="font-weight: bold; color: var(--primary-color);">--</span>
+                        </div>
+                    </div>
+
+                    <div class="result-breakdown" id="perPersonSection">
+                        <h4>Per Person (Split)</h4>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Each Person Pays:</span>
+                            <span class="breakdown-value" id="perPerson">--</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Tip Per Person:</span>
+                            <span class="breakdown-value" id="tipPerPerson">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('tipForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const bill = parseFloat(document.getElementById('billAmount').value);
+                const tipPercent = parseFloat(document.getElementById('tipPercent').value);
+                const numPeople = parseFloat(document.getElementById('numPeople').value) || 1;
+
+                const tipAmount = bill * (tipPercent / 100);
+                const total = bill + tipAmount;
+                const perPerson = total / numPeople;
+                const tipPerPerson = tipAmount / numPeople;
+
+                document.getElementById('originalBill').textContent = '₹' + bill.toFixed(2);
+                document.getElementById('tipAmount').textContent = '₹' + tipAmount.toFixed(2);
+                document.getElementById('totalAmount').textContent = '₹' + total.toFixed(2);
+                document.getElementById('perPerson').textContent = '₹' + perPerson.toFixed(2);
+                document.getElementById('tipPerPerson').textContent = '₹' + tipPerPerson.toFixed(2);
+
+                document.getElementById('perPersonSection').style.display = numPeople > 1 ? 'block' : 'none';
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

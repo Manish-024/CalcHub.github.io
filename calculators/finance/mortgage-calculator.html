@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mortgage Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-home"></i><h1>Mortgage Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate monthly mortgage payments with taxes and insurance.</p></div>
+<div class="calculator-form"><form id="mortgageForm"><div class="form-section"><h3>Loan Details</h3>
+<div class="form-group"><label>Home Price</label><input type="number" id="price" step="any" value="300000" required></div>
+<div class="form-group"><label>Down Payment (%)</label><input type="number" id="down" step="any" value="20" required></div>
+<div class="form-group"><label>Interest Rate (%)</label><input type="number" id="rate" step="any" value="6.5" required></div>
+<div class="form-group"><label>Loan Term (years)</label><input type="number" id="years" step="any" value="30" required></div>
+<div class="form-group"><label>Property Tax (annual)</label><input type="number" id="tax" step="any" value="3000"></div>
+<div class="form-group"><label>Home Insurance (annual)</label><input type="number" id="insurance" step="any" value="1200"></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Monthly Payment</h3>
+<div class="result-item"><div class="result-value" id="monthly">--</div></div>
+<div class="result-breakdown"><h4>Breakdown</h4>
+<div class="breakdown-item"><span class="breakdown-label">Principal & Interest:</span><span class="breakdown-value" id="pi">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Property Tax:</span><span class="breakdown-value" id="taxMonth">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Insurance:</span><span class="breakdown-value" id="insMonth">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Loan Amount:</span><span class="breakdown-value" id="loanAmt">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Total Interest:</span><span class="breakdown-value" id="totalInt">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('mortgageForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const price = parseFloat(document.getElementById('price').value);
+    const downPercent = parseFloat(document.getElementById('down').value);
+    const rate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+    const years = parseFloat(document.getElementById('years').value);
+    const tax = parseFloat(document.getElementById('tax').value) || 0;
+    const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+    
+    const downPayment = price * (downPercent / 100);
+    const loanAmount = price - downPayment;
+    const n = years * 12;
+    
+    const monthlyPI = loanAmount * (rate * Math.pow(1 + rate, n)) / (Math.pow(1 + rate, n) - 1);
+    const monthlyTax = tax / 12;
+    const monthlyIns = insurance / 12;
+    const totalMonthly = monthlyPI + monthlyTax + monthlyIns;
+    const totalInterest = (monthlyPI * n) - loanAmount;
+    
+    document.getElementById('monthly').textContent = '₹' + totalMonthly.toFixed(2);
+    document.getElementById('pi').textContent = '₹' + monthlyPI.toFixed(2);
+    document.getElementById('taxMonth').textContent = '₹' + monthlyTax.toFixed(2);
+    document.getElementById('insMonth').textContent = '₹' + monthlyIns.toFixed(2);
+    document.getElementById('loanAmt').textContent = '₹' + loanAmount.toLocaleString();
+    document.getElementById('totalInt').textContent = '₹' + totalInterest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

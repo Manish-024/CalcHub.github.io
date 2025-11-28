@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Salary Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-money-bill-wave"></i><h1>Salary Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Convert between hourly, monthly, and annual salary.</p></div>
+<div class="calculator-form"><form id="salaryForm"><div class="form-section"><h3>Salary Information</h3>
+<div class="form-group"><label>Input Type</label><select id="inputType"><option value="annual">Annual Salary</option><option value="monthly">Monthly Salary</option><option value="hourly">Hourly Rate</option></select></div>
+<div class="form-group"><label>Amount (₹)</label><input type="number" id="amount" step="any" value="600000" required></div>
+<div class="form-group"><label>Hours per Week</label><input type="number" id="hoursWeek" step="any" value="40" required></div>
+<div class="form-group"><label>Weeks per Year</label><input type="number" id="weeksYear" step="any" value="52" required></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Salary Breakdown</h3>
+<div class="result-breakdown">
+<div class="breakdown-item" style="background:#e3f2fd;padding:1rem;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Annual Salary:</span><span class="breakdown-value" id="annual" style="font-weight:bold;font-size:1.2rem;">--</span></div>
+<div class="breakdown-item" style="background:#f3e5f5;padding:1rem;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Monthly Salary:</span><span class="breakdown-value" id="monthly" style="font-weight:bold;font-size:1.2rem;">--</span></div>
+<div class="breakdown-item" style="background:#fff3e0;padding:1rem;border-radius:8px;margin-bottom:0.5rem;"><span class="breakdown-label" style="font-weight:bold;">Weekly Salary:</span><span class="breakdown-value" id="weekly" style="font-weight:bold;font-size:1.2rem;">--</span></div>
+<div class="breakdown-item" style="background:#e8f5e9;padding:1rem;border-radius:8px;"><span class="breakdown-label" style="font-weight:bold;">Hourly Rate:</span><span class="breakdown-value" id="hourly" style="font-weight:bold;font-size:1.2rem;">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('salaryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const inputType = document.getElementById('inputType').value;
+    const amount = parseFloat(document.getElementById('amount').value);
+    const hoursWeek = parseFloat(document.getElementById('hoursWeek').value);
+    const weeksYear = parseFloat(document.getElementById('weeksYear').value);
+    
+    const hoursYear = hoursWeek * weeksYear;
+    let annual, monthly, weekly, hourly;
+    
+    if (inputType === 'annual') {
+        annual = amount;
+        hourly = annual / hoursYear;
+    } else if (inputType === 'monthly') {
+        monthly = amount;
+        annual = monthly * 12;
+        hourly = annual / hoursYear;
+    } else {
+        hourly = amount;
+        annual = hourly * hoursYear;
+    }
+    
+    monthly = annual / 12;
+    weekly = annual / weeksYear;
+    
+    document.getElementById('annual').textContent = '₹' + annual.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('monthly').textContent = '₹' + monthly.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('weekly').textContent = '₹' + weekly.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('hourly').textContent = '₹' + hourly.toFixed(2);
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <div class="calculator-title"><i class="fas fa-chart-line"></i><h1>Compound Interest Calculator</h1></div>
+        </div>
+    </header>
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate compound interest and see how your investment grows over time.</p>
+                </div>
+                <div class="calculator-form">
+                    <form id="compoundForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-dollar-sign"></i> Investment Details</h3>
+                            <div class="form-group">
+                                <label for="principal">Initial Investment <span class="required">*</span></label>
+                                <input type="number" id="principal" min="0" step="any" value="10000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rate">Annual Interest Rate (%) <span class="required">*</span></label>
+                                <input type="number" id="rate" min="0" step="any" value="7" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="years">Time Period (years) <span class="required">*</span></label>
+                                <input type="number" id="years" min="1" step="any" value="10" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="compound">Compound Frequency</label>
+                                <select id="compound">
+                                    <option value="1">Annually</option>
+                                    <option value="2">Semi-Annually</option>
+                                    <option value="4">Quarterly</option>
+                                    <option value="12" selected>Monthly</option>
+                                    <option value="365">Daily</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="monthly">Monthly Contribution</label>
+                                <input type="number" id="monthly" min="0" step="any" value="0">
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button>
+                            <button type="reset" class="btn btn-secondary"><i class="fas fa-redo"></i> Reset</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-money-bill-wave"></i> Investment Growth</h3>
+                    <div class="result-item">
+                        <div class="result-label">Future Value</div>
+                        <div class="result-value" id="futureValue">--</div>
+                    </div>
+                    <div class="result-breakdown">
+                        <h4>Breakdown</h4>
+                        <div class="breakdown-item"><span class="breakdown-label">Total Invested:</span><span class="breakdown-value" id="totalInvested">--</span></div>
+                        <div class="breakdown-item"><span class="breakdown-label">Total Interest:</span><span class="breakdown-value" id="totalInterest">--</span></div>
+                        <div class="breakdown-item"><span class="breakdown-label">Interest Rate:</span><span class="breakdown-value" id="effectiveRate">--</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer><div class="container"><p>&copy; 2025 CalcHub. All rights reserved.</p></div></footer>
+    <script>
+        document.getElementById('compoundForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const P = parseFloat(document.getElementById('principal').value);
+            const r = parseFloat(document.getElementById('rate').value) / 100;
+            const t = parseFloat(document.getElementById('years').value);
+            const n = parseFloat(document.getElementById('compound').value);
+            const PMT = parseFloat(document.getElementById('monthly').value) || 0;
+            
+            // Future value of principal
+            const FV_principal = P * Math.pow(1 + r/n, n*t);
+            
+            // Future value of monthly contributions
+            const FV_contributions = PMT * ((Math.pow(1 + r/12, 12*t) - 1) / (r/12)) * (1 + r/12);
+            
+            const futureValue = FV_principal + FV_contributions;
+            const totalInvested = P + (PMT * 12 * t);
+            const totalInterest = futureValue - totalInvested;
+            
+            document.getElementById('futureValue').textContent = '₹' + futureValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalInvested').textContent = '₹' + totalInvested.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalInterest').textContent = '₹' + totalInterest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('effectiveRate').textContent = r.toFixed(4) * 100 + '%';
+            
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        document.getElementById('compoundForm').addEventListener('reset', () => document.getElementById('result').style.display = 'none');
+    </script>
+</body>
+</html>
