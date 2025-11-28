@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Paint Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-paint-roller"></i><h1>Paint Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate paint needed for walls and rooms with windows/doors.</p></div>
+<div class="calculator-form"><form id="paintForm"><div class="form-section"><h3>Room Dimensions</h3>
+<div class="form-group"><label>Room Length (m)</label><input type="number" id="length" step="any" value="3.7" required></div>
+<div class="form-group"><label>Room Width (m)</label><input type="number" id="width" step="any" value="3.0" required></div>
+<div class="form-group"><label>Wall Height (m)</label><input type="number" id="height" step="any" value="2.6" required></div>
+<div class="form-group"><label>Number of Doors</label><input type="number" id="doors" step="any" value="1" min="0"></div>
+<div class="form-group"><label>Number of Windows</label><input type="number" id="windows" step="any" value="2" min="0"></div>
+<div class="form-group"><label>Paint Coverage (sq meter/liter)</label><input type="number" id="coverage" step="any" value="10" required></div>
+<div class="form-group"><label>Number of Coats</label><input type="number" id="coats" step="any" value="2" min="1" required></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Paint Needed</h3>
+<div class="result-item"><div class="result-value" id="gallons">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">Total Wall Area:</span><span class="breakdown-value" id="wallArea">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Paintable Area:</span><span class="breakdown-value" id="paintArea">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Quarts Needed:</span><span class="breakdown-value" id="quarts">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('paintForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const length = parseFloat(document.getElementById('length').value);
+    const width = parseFloat(document.getElementById('width').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const doors = parseFloat(document.getElementById('doors').value) || 0;
+    const windows = parseFloat(document.getElementById('windows').value) || 0;
+    const coverage = parseFloat(document.getElementById('coverage').value);
+    const coats = parseFloat(document.getElementById('coats').value);
+    
+    const wallArea = 2 * (length + width) * height;
+    const doorArea = doors * 2.0; // avg door ~2.0 sq m
+    const windowArea = windows * 1.5; // avg window ~1.5 sq m
+    const paintableArea = wallArea - doorArea - windowArea;
+    const totalArea = paintableArea * coats;
+    const litersNeeded = Math.ceil(totalArea / coverage);
+    
+    document.getElementById('gallons').textContent = litersNeeded + ' liters';
+    document.getElementById('wallArea').textContent = wallArea.toFixed(1) + ' m²';
+    document.getElementById('paintArea').textContent = paintableArea.toFixed(1) + ' m²';
+    document.getElementById('quarts').textContent = litersNeeded + ' liters';
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

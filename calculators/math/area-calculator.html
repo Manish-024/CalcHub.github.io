@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Calculator - CalcHub</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/calculator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="calculator-page">
+    <header class="calculator-header">
+        <div class="container">
+            <a href="../../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="calculator-title">
+                <i class="fas fa-shapes"></i>
+                <h1>Area Calculator</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="container">
+            <div class="calculator-content">
+                <div class="calculator-description">
+                    <h2>About This Calculator</h2>
+                    <p>Calculate the area of various geometric shapes including squares, rectangles, circles, triangles, and more.</p>
+                </div>
+
+                <div class="calculator-form">
+                    <form id="areaForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-square"></i> Select Shape</h3>
+                            
+                            <div class="form-group">
+                                <label for="shape">Shape <span class="required">*</span></label>
+                                <select id="shape" required onchange="updateFields()">
+                                    <option value="square">Square</option>
+                                    <option value="rectangle">Rectangle</option>
+                                    <option value="circle">Circle</option>
+                                    <option value="triangle">Triangle</option>
+                                    <option value="trapezoid">Trapezoid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="fields" class="form-section"></div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Area
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="result" class="result-container">
+                    <h3><i class="fas fa-ruler-combined"></i> Area Result</h3>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Area</div>
+                        <div class="result-value" id="areaValue" style="color: var(--primary-color);">--</div>
+                    </div>
+
+                    <div class="result-breakdown" id="additionalInfo"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script>
+        function updateFields() {
+            const shape = document.getElementById('shape').value;
+            const fieldsDiv = document.getElementById('fields');
+            let html = '<h3><i class="fas fa-ruler"></i> Dimensions</h3>';
+
+            switch(shape) {
+                case 'square':
+                    html += '<div class="form-group"><label>Side Length</label><input type="number" id="side" step="any" required placeholder="e.g., 10"></div>';
+                    break;
+                case 'rectangle':
+                    html += '<div class="form-group"><label>Length</label><input type="number" id="length" step="any" required placeholder="e.g., 10"></div>';
+                    html += '<div class="form-group"><label>Width</label><input type="number" id="width" step="any" required placeholder="e.g., 5"></div>';
+                    break;
+                case 'circle':
+                    html += '<div class="form-group"><label>Radius</label><input type="number" id="radius" step="any" required placeholder="e.g., 5"></div>';
+                    break;
+                case 'triangle':
+                    html += '<div class="form-group"><label>Base</label><input type="number" id="base" step="any" required placeholder="e.g., 10"></div>';
+                    html += '<div class="form-group"><label>Height</label><input type="number" id="height" step="any" required placeholder="e.g., 8"></div>';
+                    break;
+                case 'trapezoid':
+                    html += '<div class="form-group"><label>Base 1 (top)</label><input type="number" id="base1" step="any" required placeholder="e.g., 5"></div>';
+                    html += '<div class="form-group"><label>Base 2 (bottom)</label><input type="number" id="base2" step="any" required placeholder="e.g., 10"></div>';
+                    html += '<div class="form-group"><label>Height</label><input type="number" id="height" step="any" required placeholder="e.g., 6"></div>';
+                    break;
+            }
+
+            fieldsDiv.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFields();
+            
+            const form = document.getElementById('areaForm');
+            const resultContainer = document.getElementById('result');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const shape = document.getElementById('shape').value;
+                let area, perimeter;
+
+                switch(shape) {
+                    case 'square':
+                        const side = parseFloat(document.getElementById('side').value);
+                        area = side * side;
+                        perimeter = 4 * side;
+                        break;
+                    case 'rectangle':
+                        const length = parseFloat(document.getElementById('length').value);
+                        const width = parseFloat(document.getElementById('width').value);
+                        area = length * width;
+                        perimeter = 2 * (length + width);
+                        break;
+                    case 'circle':
+                        const radius = parseFloat(document.getElementById('radius').value);
+                        area = Math.PI * radius * radius;
+                        perimeter = 2 * Math.PI * radius;
+                        break;
+                    case 'triangle':
+                        const base = parseFloat(document.getElementById('base').value);
+                        const height = parseFloat(document.getElementById('height').value);
+                        area = 0.5 * base * height;
+                        perimeter = 'N/A (requires all sides)';
+                        break;
+                    case 'trapezoid':
+                        const base1 = parseFloat(document.getElementById('base1').value);
+                        const base2 = parseFloat(document.getElementById('base2').value);
+                        const h = parseFloat(document.getElementById('height').value);
+                        area = 0.5 * (base1 + base2) * h;
+                        perimeter = 'N/A (requires all sides)';
+                        break;
+                }
+
+                document.getElementById('areaValue').textContent = area.toFixed(2) + ' sq units';
+                document.getElementById('additionalInfo').innerHTML = 
+                    `<h4>Additional Information</h4>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Shape:</span>
+                        <span class="breakdown-value">${shape.charAt(0).toUpperCase() + shape.slice(1)}</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Perimeter/Circumference:</span>
+                        <span class="breakdown-value">${typeof perimeter === 'number' ? perimeter.toFixed(2) + ' units' : perimeter}</span>
+                    </div>`;
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+
+            form.addEventListener('reset', function() {
+                resultContainer.style.display = 'none';
+                updateFields();
+            });
+        });
+    </script>
+</body>
+</html>

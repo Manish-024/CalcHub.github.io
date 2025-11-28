@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Concrete Calculator - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-cube"></i><h1>Concrete Calculator</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Calculate concrete volume and bags needed for slabs and projects.</p></div>
+<div class="calculator-form"><form id="concreteForm"><div class="form-section"><h3>Project Dimensions</h3>
+<div class="form-group"><label>Length (m)</label><input type="number" id="length" step="any" value="3" required></div>
+<div class="form-group"><label>Width (m)</label><input type="number" id="width" step="any" value="3" required></div>
+<div class="form-group"><label>Thickness (mm)</label><input type="number" id="thickness" step="any" value="100" required></div>
+<div class="form-group"><label>Bag Size (kg)</label><select id="bagSize"><option value="25">25 kg</option><option value="50" selected>50 kg</option></select></div>
+<div class="form-group"><label>Price per Bag (₹)</label><input type="number" id="price" step="any" value="400"></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate</button></div></form></div>
+<div id="result" class="result-container"><h3>Concrete Needed</h3>
+<div class="result-item"><div class="result-value" id="cubicYards">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">Cubic Feet:</span><span class="breakdown-value" id="cubicFeet">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Bags Needed:</span><span class="breakdown-value" id="bags">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Total Cost:</span><span class="breakdown-value" id="cost">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('concreteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const length = parseFloat(document.getElementById('length').value);
+    const width = parseFloat(document.getElementById('width').value);
+    const thickness = parseFloat(document.getElementById('thickness').value) / 12;
+    const bagSize = parseInt(document.getElementById('bagSize').value);
+    const price = parseFloat(document.getElementById('price').value) || 0;
+    
+    // thickness is provided in mm, convert to meters
+    const thicknessM = parseFloat(document.getElementById('thickness').value) / 1000;
+    const cubicMeters = length * width * thicknessM;
+    // approximate volume covered per bag (m3)
+    const bagSizeKg = parseInt(document.getElementById('bagSize').value);
+    const coverageMap = {25: 0.017, 50: 0.035};
+    const coverage = coverageMap[bagSizeKg] || 0.03;
+    const bagsNeeded = Math.ceil(cubicMeters / coverage);
+    const totalCost = bagsNeeded * price;
+    
+    document.getElementById('cubicYards').textContent = cubicMeters.toFixed(3) + ' m³';
+    document.getElementById('cubicFeet').textContent = (cubicMeters * 35.3147).toFixed(2) + ' cu ft';
+    document.getElementById('bags').textContent = bagsNeeded + ' bags (' + bagSizeKg + ' kg)';
+    document.getElementById('cost').textContent = price > 0 ? '₹' + totalCost.toFixed(2) : 'N/A';
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>

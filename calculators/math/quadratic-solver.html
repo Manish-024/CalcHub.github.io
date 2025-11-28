@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Quadratic Equation Solver - CalcHub</title><link rel="stylesheet" href="../../css/style.css"><link rel="stylesheet" href="../../css/calculator.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
+<body class="calculator-page"><header class="calculator-header"><div class="container"><a href="../../index.html" class="back-button"><i class="fas fa-arrow-left"></i> Back</a><div class="calculator-title"><i class="fas fa-square-root-alt"></i><h1>Quadratic Equation Solver</h1></div></div></header>
+<main class="calculator-container"><div class="container"><div class="calculator-content"><div class="calculator-description"><h2>About</h2><p>Solve quadratic equations in the form ax² + bx + c = 0.</p></div>
+<div class="calculator-form"><form id="quadForm"><div class="form-section"><h3>Equation: ax² + bx + c = 0</h3>
+<div class="form-group"><label>Coefficient a</label><input type="number" id="a" step="any" value="1" required></div>
+<div class="form-group"><label>Coefficient b</label><input type="number" id="b" step="any" value="5" required></div>
+<div class="form-group"><label>Coefficient c</label><input type="number" id="c" step="any" value="6" required></div>
+</div><div class="button-group"><button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Solve</button></div></form></div>
+<div id="result" class="result-container"><h3>Solutions</h3>
+<div class="result-item"><div class="result-value" id="solutions" style="font-size:1.5rem;">--</div></div>
+<div class="result-breakdown"><div class="breakdown-item"><span class="breakdown-label">Discriminant:</span><span class="breakdown-value" id="discriminant">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Nature:</span><span class="breakdown-value" id="nature">--</span></div>
+<div class="breakdown-item"><span class="breakdown-label">Vertex:</span><span class="breakdown-value" id="vertex">--</span></div>
+</div></div></div></div></main>
+<footer><div class="container"><p>&copy; 2025 CalcHub</p></div></footer>
+<script>
+document.getElementById('quadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const a = parseFloat(document.getElementById('a').value);
+    const b = parseFloat(document.getElementById('b').value);
+    const c = parseFloat(document.getElementById('c').value);
+    
+    if (a === 0) {
+        document.getElementById('solutions').textContent = 'Not a quadratic equation (a cannot be 0)';
+        document.getElementById('discriminant').textContent = 'N/A';
+        document.getElementById('nature').textContent = 'N/A';
+        document.getElementById('vertex').textContent = 'N/A';
+        document.getElementById('result').style.display = 'block';
+        return;
+    }
+    
+    const discriminant = b * b - 4 * a * c;
+    let nature, solutions;
+    
+    if (discriminant > 0) {
+        nature = 'Two real distinct roots';
+        const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+        const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+        solutions = 'x₁ = ' + x1.toFixed(4) + ', x₂ = ' + x2.toFixed(4);
+    } else if (discriminant === 0) {
+        nature = 'One repeated real root';
+        const x = -b / (2 * a);
+        solutions = 'x = ' + x.toFixed(4);
+    } else {
+        nature = 'Two complex roots';
+        const real = -b / (2 * a);
+        const imag = Math.sqrt(-discriminant) / (2 * a);
+        solutions = 'x₁ = ' + real.toFixed(4) + ' + ' + imag.toFixed(4) + 'i, x₂ = ' + real.toFixed(4) + ' - ' + imag.toFixed(4) + 'i';
+    }
+    
+    const vertexX = -b / (2 * a);
+    const vertexY = a * vertexX * vertexX + b * vertexX + c;
+    
+    document.getElementById('solutions').textContent = solutions;
+    document.getElementById('discriminant').textContent = discriminant.toFixed(4);
+    document.getElementById('nature').textContent = nature;
+    document.getElementById('vertex').textContent = '(' + vertexX.toFixed(4) + ', ' + vertexY.toFixed(4) + ')';
+    document.getElementById('result').style.display = 'block';
+});
+</script></body></html>
